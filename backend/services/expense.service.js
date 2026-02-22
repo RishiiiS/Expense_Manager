@@ -17,6 +17,20 @@ class ExpenseService {
       order: [["date", "DESC"]],
     });
   }
+  async deleteExpense(expenseId, userId) {
+  const deleted = await Expense.destroy({
+    where: {
+      id: expenseId,
+      user_id: userId,
+    },
+  });
+
+  if (!deleted) {
+    throw new Error("Expense not found or unauthorized");
+  }
+
+  return true;
+}
 }
 
 module.exports = new ExpenseService();

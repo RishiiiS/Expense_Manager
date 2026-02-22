@@ -37,6 +37,20 @@ class ExpenseController {
       res.status(500).json({ error: error.message });
     }
   }
+  async deleteExpense(req, res) {
+  try {
+    const expenseId = req.params.id;
+    const userId = req.user.id;
+
+    await expenseService.deleteExpense(expenseId, userId);
+
+    res.status(200).json({
+      message: "Expense deleted successfully",
+    });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
 }
 
 module.exports = new ExpenseController();
