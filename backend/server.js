@@ -3,15 +3,20 @@ const { sequelize } = require("./config/db");
 const express = require("express");
 const { connectDB } = require("./config/db");
 require("./models/user.model");
+require("./models/category.model");
 const app = express();
 const authRoutes = require("./routes/auth.routes");
 const authMiddleware = require("./middlewares/auth.middleware");
-
+const categoryService = require("./services/category.service");
+const categoryRoutes = require("./routes/category.routes");
 app.use(express.json());
 
 connectDB();
 sequelize.sync({ alter: true })
-  .then(() => console.log("Tables synced"))
+  .then(async () => {
+    console.log("Tables synced");
+    await categoryService.seedDefaultCategories();
+  })
   .catch((err) => console.error("Sync error:", err));
 
 app.get("/", (req, res) => {
@@ -26,7 +31,13 @@ app.get("/api/v1/protected", authMiddleware, (req, res) => {
     user: req.user,
   });
 });
+app.use("/api/v1/categories", categoryRoutes);
 
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong! Please try again later." });
+});
 const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
