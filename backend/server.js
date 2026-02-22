@@ -13,6 +13,14 @@ const categoryRoutes = require("./routes/category.routes");
 const expenseRoutes = require("./routes/expense.routes");
 app.use(express.json());
 
+// Handle JSON parsing errors gracefully
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    console.error("Bad JSON received:", err.message);
+    return res.status(400).json({ error: "Invalid JSON payload format" });
+  }
+  next();
+});
 connectDB();
 sequelize.sync({ alter: true })
   .then(async () => {

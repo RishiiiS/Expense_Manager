@@ -11,6 +11,12 @@ class ExpenseService {
         });
         return expense;
     }
+    async getUserExpenses(userId) {
+    return await Expense.findAll({
+      where: { user_id: userId },
+      order: [["date", "DESC"]],
+    });
+  }
 }
 
 module.exports = new ExpenseService();
