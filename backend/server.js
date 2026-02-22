@@ -5,12 +5,14 @@ const { connectDB } = require("./config/db");
 require("./models/user.model");
 require("./models/category.model");
 require("./models/expense.model");
+require("./models/budget.model");
 const app = express();
 const authRoutes = require("./routes/auth.routes");
 const authMiddleware = require("./middlewares/auth.middleware");
 const categoryService = require("./services/category.service");
 const categoryRoutes = require("./routes/category.routes");
 const expenseRoutes = require("./routes/expense.routes");
+const budgetRoutes = require("./routes/budget.routes");
 app.use(express.json());
 
 // Handle JSON parsing errors gracefully
@@ -43,6 +45,7 @@ app.get("/api/v1/protected", authMiddleware, (req, res) => {
 });
 app.use("/api/v1/categories", categoryRoutes);
 app.use("/api/v1/expenses", expenseRoutes);
+app.use("/api/v1/budgets", budgetRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
