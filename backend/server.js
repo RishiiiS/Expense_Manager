@@ -4,11 +4,13 @@ const express = require("express");
 const { connectDB } = require("./config/db");
 require("./models/user.model");
 require("./models/category.model");
+require("./models/expense.model");
 const app = express();
 const authRoutes = require("./routes/auth.routes");
 const authMiddleware = require("./middlewares/auth.middleware");
 const categoryService = require("./services/category.service");
 const categoryRoutes = require("./routes/category.routes");
+const expenseRoutes = require("./routes/expense.routes");
 app.use(express.json());
 
 connectDB();
@@ -32,6 +34,7 @@ app.get("/api/v1/protected", authMiddleware, (req, res) => {
   });
 });
 app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/expenses", expenseRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
