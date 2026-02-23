@@ -13,6 +13,7 @@ const categoryService = require("./services/category.service");
 const categoryRoutes = require("./routes/category.routes");
 const expenseRoutes = require("./routes/expense.routes");
 const budgetRoutes = require("./routes/budget.routes");
+const reportRoutes = require("./routes/report.routes");
 app.use(express.json());
 
 // Handle JSON parsing errors gracefully
@@ -46,6 +47,7 @@ app.get("/api/v1/protected", authMiddleware, (req, res) => {
 app.use("/api/v1/categories", categoryRoutes);
 app.use("/api/v1/expenses", expenseRoutes);
 app.use("/api/v1/budgets", budgetRoutes);
+app.use("/api/v1/reports", reportRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
