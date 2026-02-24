@@ -1,0 +1,89 @@
+.purpose-section {
+    padding: 10rem 0 4rem 0;
+    /* Increased top padding significantly */
+    width: 100%;
+}
+
+.purpose-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+}
+
+.purpose-title {
+    flex: 1;
+    font-size: 7rem;
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -3px;
+    color: var(--text-main);
+    text-transform: uppercase;
+}
+
+.title-italic {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.4);
+    /* Faded white/grey for 'Infrastructure' */
+    font-size: 6rem;
+    text-transform: capitalize;
+    letter-spacing: -2px;
+}
+
+.purpose-text-wrapper {
+    flex: 0 0 450px;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.purpose-separator {
+    width: 2px;
+    background-color: var(--accent-red);
+    flex-shrink: 0;
+}
+
+.purpose-text {
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    font-weight: 400;
+}
+
+@media (max-width: 1200px) {
+    .purpose-title {
+        font-size: 5rem;
+    }
+
+    .title-italic {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .purpose-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4rem;
+    }
+
+    .purpose-text-wrapper {
+        flex: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .purpose-title {
+        font-size: 4rem;
+    }
+
+    .title-italic {
+        font-size: 3rem;
+    }
+
+    .purpose-section {
+        padding: 4rem 0;
+    }
+}

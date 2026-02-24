@@ -1,0 +1,82 @@
+.features-section {
+    padding: 0 0 6rem 0;
+    width: 100%;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    /* For the thin borders between them */
+    background-color: rgba(255, 255, 255, 0.05);
+    /* Acts as the border color between cards */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.feature-card {
+    background-color: var(--bg-color);
+    /* Matches page background so the gap shows as border */
+    padding: 3.5rem 3rem;
+    position: relative;
+    transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-card:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.feature-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.feature-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: 0.5px;
+}
+
+.feature-number {
+    font-size: 2rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.05);
+    /* Very faint large numbers */
+    font-family: 'Inter', sans-serif;
+}
+
+.feature-description {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    flex-grow: 1;
+}
+
+.feature-line {
+    height: 2px;
+    width: 30px;
+    background-color: var(--accent-red);
+    transition: width 0.3s ease;
+}
+
+.feature-card:nth-child(2) .feature-line {
+    background-color: #fbbf24;
+    /* Yellowish for middle card based on design */
+}
+
+.feature-card:hover .feature-line {
+    width: 50px;
+}
+
+@media (max-width: 1024px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}

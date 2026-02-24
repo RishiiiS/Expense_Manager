@@ -1,0 +1,125 @@
+.philosophy-section {
+    padding: 12rem 0;
+    /* Increased padding top and bottom */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* Top border as seen in design */
+    margin-top: 6rem;
+    /* Increased top margin to separate it more from features */
+}
+
+.philosophy-illustration {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image Tree Graphic */
+.tree-graphic-img {
+    width: 100%;
+    max-width: 600px;
+    /* Increased from 450px */
+    height: auto;
+    object-fit: contain;
+}
+
+
+.philosophy-content {
+    flex: 1;
+    max-width: 500px;
+}
+
+.philosophy-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.header-line {
+    width: 40px;
+    height: 2px;
+    background-color: var(--accent-red);
+}
+
+.header-label {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+.philosophy-title {
+    font-size: 5.5rem;
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -3px;
+    color: var(--text-main);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+}
+
+.title-outline {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
+}
+
+.philosophy-quote {
+    font-size: 1.25rem;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    padding-left: 1.5rem;
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.philosophy-description {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 3rem;
+}
+
+.whitepaper-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: var(--text-main);
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.whitepaper-link:hover {
+    opacity: 0.7;
+}
+
+.link-line {
+    width: 60px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: width 0.3s ease;
+}
+
+.whitepaper-link:hover .link-line {
+    width: 80px;
+    background-color: var(--text-main);
+}
+
+@media (max-width: 1024px) {
+    .philosophy-section {
+        flex-direction: column-reverse;
+        text-align: left;
+    }
+}

@@ -1,0 +1,104 @@
+.cta-section {
+    padding: 10rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(11, 11, 14);
+    /* Slightly different dark bg for contrast if needed */
+    margin: 4rem -6rem -2rem -6rem;
+    /* Break out of main-content padding */
+}
+
+.cta-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cta-title {
+    font-size: 9rem;
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -4px;
+    color: var(--text-main);
+    text-transform: uppercase;
+    margin-bottom: 4rem;
+}
+
+.cta-title .title-outline {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+}
+
+.cta-actions {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.get-started-btn {
+    background-color: var(--text-main);
+    color: var(--bg-color);
+    border: none;
+    padding: 1.25rem 2.5rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.get-started-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.documentation-link {
+    color: var(--text-main);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.documentation-link:hover {
+    color: var(--text-muted);
+}
+
+.arrow-right {
+    font-weight: 400;
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+}
+
+.documentation-link:hover .arrow-right {
+    transform: translateX(4px);
+}
+
+@media (max-width: 1200px) {
+    .cta-title {
+        font-size: 7rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cta-title {
+        font-size: 4.5rem;
+    }
+
+    .cta-actions {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .cta-section {
+        margin: 4rem -2rem -2rem -2rem;
+        padding: 6rem 0;
+    }
+}

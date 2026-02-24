@@ -1,14 +1,12 @@
 import React from 'react';
 import '../styles/Philosophy.css';
+import treeGraphic from '../assets/tree-graphic.jpg';
 
 const Philosophy = () => {
     return (
         <section className="philosophy-section" id="philosophy">
             <div className="philosophy-illustration">
-                {/* Placeholder for the tree illustration */}
-                <div className="tree-graphic-placeholder">
-                    {/* Will be styled later */}
-                </div>
+                <img src={treeGraphic} alt="Growing Roots Graphic" className="tree-graphic-img" />
             </div>
             <div className="philosophy-content">
                 <div className="philosophy-header">
