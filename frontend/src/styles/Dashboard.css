@@ -1,0 +1,9 @@
+/* src/styles/Dashboard.css */
+/* Placeholder CSS to prevent import errors before styling phase */
+.dashboard-layout {
+    display: flex;
+}
+
+.dashboard-main-content {
+    flex: 1;
+}

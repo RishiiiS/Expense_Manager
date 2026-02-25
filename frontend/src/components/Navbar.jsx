@@ -9,7 +9,7 @@ const Navbar = () => {
                 <span className="logo-icon">$</span> MoneyTree
             </div>
             <ul className="navbar-links">
-                <li><a href="#home">Dashboard</a></li>
+                <li><Link to="/dashboard">Dashboard</Link></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#github">GitHub</a></li>
