@@ -1,0 +1,325 @@
+/* src/styles/Login.css */
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    position: relative;
+    overflow: hidden;
+}
+
+/* =========================================
+   1. Header Section
+   ========================================= */
+.login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 5rem;
+    position: relative;
+    z-index: 10;
+}
+
+.login-logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-main);
+    gap: 0.75rem;
+}
+
+.login-logo .logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent-red);
+    color: var(--accent-red);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.login-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.05rem;
+}
+
+.new-here-text {
+    color: var(--text-muted);
+}
+
+.create-account-link {
+    color: var(--accent-red);
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.create-account-link:hover {
+    opacity: 0.8;
+}
+
+/* Main Area Layout for centering the card */
+.login-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* =========================================
+   2. Login Card Component
+   ========================================= */
+.login-card {
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 4rem;
+    width: 100%;
+    max-width: 540px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.login-card-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.login-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    margin-bottom: 0.75rem;
+}
+
+.login-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* =========================================
+   3. Login Form Components
+   ========================================= */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.password-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.forgot-password-link {
+    font-size: 0.9rem;
+    color: #fbbf24;
+    /* Yellow warning color from design */
+    font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.forgot-password-link:hover {
+    opacity: 0.8;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 0 1.25rem;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--accent-red);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.input-icon {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 1.05rem;
+    padding: 1.25rem 0;
+    width: 100%;
+    outline: none;
+    font-family: inherit;
+}
+
+.input-wrapper input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+    font-weight: 400;
+}
+
+.sign-in-btn-main {
+    background-color: var(--accent-red);
+    color: var(--text-main);
+    border: none;
+    border-radius: 8px;
+    padding: 1.25rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.sign-in-btn-main:hover {
+    background-color: #dc2626;
+    /* slightly darker red */
+}
+
+.sign-in-btn-main:active {
+    transform: scale(0.98);
+}
+
+/* =========================================
+   4. Dividers & Social Login
+   ========================================= */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.auth-divider span {
+    padding: 0 1rem;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.social-login {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.social-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.social-icon {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* =========================================
+   5. Footer Section
+   ========================================= */
+.login-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.login-footer-links {
+    display: flex;
+    gap: 2rem;
+}
+
+.login-footer-links a {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    transition: color 0.2s ease;
+}
+
+.login-footer-links a:hover {
+    color: var(--text-main);
+}
+
+.login-copyright {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 0.7rem;
+}
+
+@media (max-width: 768px) {
+    .login-header {
+        padding: 1.5rem 2rem;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .login-card {
+        padding: 2rem;
+    }
+
+    .social-login {
+        flex-direction: column;
+    }
+}

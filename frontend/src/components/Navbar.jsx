@@ -9,14 +9,14 @@ const Navbar = () => {
                 <span className="logo-icon">$</span> MoneyTree
             </div>
             <ul className="navbar-links">
-                <li><a href="#home">Home</a></li>
+                <li><a href="#home">Dashboard</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#github">GitHub</a></li>
             </ul>
             <div className="navbar-actions">
                 <Link to="/login" className="login-link">Login</Link>
-                <Link to="/signin" className="sign-in-btn">Sign In</Link>
+                <Link to="/signin" className="sign-in-btn">Sign Up</Link>
             </div>
         </nav>
     );
