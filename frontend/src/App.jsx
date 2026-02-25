@@ -3,6 +3,7 @@ import Home from './components/Home';
 import Login from './components/Login';
 import SignIn from './components/SignIn';
 import Dashboard from './components/dashboard/Dashboard';
+import Transactions from './components/transactions/Transactions';
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/transactions" element={<Transactions />} />
         </Routes>
       </div>
     </BrowserRouter>

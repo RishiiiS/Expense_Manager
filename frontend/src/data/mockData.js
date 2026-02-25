@@ -30,3 +30,63 @@ export const mockDashboardData = {
         expenseData: [45000, 48000, 42000, 52000, 38000, 42000]
     }
 };
+
+export const mockTransactionsData = {
+    summary: {
+        totalExpenses: 4850.24,
+        expensesChange: "+12% from last month",
+        totalIncome: 12400.00,
+        incomeChange: "+5% from last month"
+    },
+    transactions: [
+        {
+            id: 1,
+            title: "Apple Services",
+            subtitle: "Monthly Subscription",
+            category: "Software",
+            date: "Oct 24, 2023",
+            status: "Completed",
+            icon: "📱"
+        },
+        {
+            id: 2,
+            title: "Stripe Inc.",
+            subtitle: "Freelance Payment",
+            category: "Income",
+            date: "Oct 23, 2023",
+            status: "Completed",
+            icon: "💼"
+        },
+        {
+            id: 3,
+            title: "Starbucks",
+            subtitle: "Coffee & Snack",
+            category: "Food",
+            date: "Oct 22, 2023",
+            status: "Pending",
+            icon: "☕"
+        },
+        {
+            id: 4,
+            title: "Zara",
+            subtitle: "Clothing",
+            category: "Lifestyle",
+            date: "Oct 21, 2023",
+            status: "Completed",
+            icon: "🛍️"
+        },
+        {
+            id: 5,
+            title: "Delta Airlines",
+            subtitle: "Flight to NYC",
+            category: "Travel",
+            date: "Oct 20, 2023",
+            status: "Completed",
+            icon: "✈️"
+        }
+    ],
+    pagination: {
+        showing: "1-5",
+        total: 128
+    }
+};
