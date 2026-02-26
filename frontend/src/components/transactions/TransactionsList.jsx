@@ -10,6 +10,7 @@ const TransactionsList = ({ transactions, pagination }) => {
                         <th>TRANSACTION</th>
                         <th>CATEGORY</th>
                         <th>DATE</th>
+                        <th>AMOUNT</th>
                         <th>STATUS</th>
                     </tr>
                 </thead>
@@ -36,6 +37,11 @@ const TransactionsList = ({ transactions, pagination }) => {
                             <td className="tx-date">
                                 {tx.date.split(',')[0]},<br />
                                 {tx.date.split(',')[1]?.trim()}
+                            </td>
+                            <td className="tx-amount">
+                                <span className={`amount ${tx.amount > 0 ? 'positive' : 'negative'}`} style={{ fontWeight: 600, color: tx.amount > 0 ? '#fbbf24' : 'var(--text-main)' }}>
+                                    {tx.amount > 0 ? '+' : ''}${Math.abs(tx.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                </span>
                             </td>
                             <td>
                                 <span className="status-container">

@@ -46,7 +46,8 @@ export const mockTransactionsData = {
             category: "Software",
             date: "Oct 24, 2023",
             status: "Completed",
-            icon: "📱"
+            icon: "📱",
+            amount: -14.99
         },
         {
             id: 2,
@@ -55,7 +56,8 @@ export const mockTransactionsData = {
             category: "Income",
             date: "Oct 23, 2023",
             status: "Completed",
-            icon: "💼"
+            icon: "💼",
+            amount: 8500.00
         },
         {
             id: 3,
@@ -64,7 +66,8 @@ export const mockTransactionsData = {
             category: "Food",
             date: "Oct 22, 2023",
             status: "Pending",
-            icon: "☕"
+            icon: "☕",
+            amount: -5.50
         },
         {
             id: 4,
@@ -73,7 +76,8 @@ export const mockTransactionsData = {
             category: "Lifestyle",
             date: "Oct 21, 2023",
             status: "Completed",
-            icon: "🛍️"
+            icon: "🛍️",
+            amount: -189.20
         },
         {
             id: 5,
@@ -82,7 +86,8 @@ export const mockTransactionsData = {
             category: "Travel",
             date: "Oct 20, 2023",
             status: "Completed",
-            icon: "✈️"
+            icon: "✈️",
+            amount: -450.00
         }
     ],
     pagination: {

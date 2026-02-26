@@ -5,7 +5,7 @@ const Sidebar = () => {
     return (
         <aside className="dashboard-sidebar">
             <div className="sidebar-logo">
-                <span className="logo-icon">$</span> ExpenseTracker
+                <span className="logo-icon">$</span> MoneyTree
             </div>
 
             <nav className="sidebar-nav">

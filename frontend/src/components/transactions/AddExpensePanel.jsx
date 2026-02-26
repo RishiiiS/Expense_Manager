@@ -1,6 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const AddExpensePanel = () => {
+const AddExpensePanel = ({ onAddExpense }) => {
+    const [amount, setAmount] = useState('');
+    const [description, setDescription] = useState('');
+    const [category, setCategory] = useState('Food');
+    const [date, setDate] = useState('10/25/2023');
+    const [account, setAccount] = useState('Primary');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!amount || !description) return;
+
+        let parsedAmount = parseFloat(amount.replace(/[^0-9.-]+/g, ""));
+        if (isNaN(parsedAmount)) parsedAmount = 0;
+
+        // Make it an expense (negative) unless it is Income category
+        if (category !== 'Income' && parsedAmount > 0) {
+            parsedAmount = -parsedAmount;
+        }
+
+        const iconMap = {
+            'Food': '🥘',
+            'Software': '💻',
+            'Income': '💼',
+            'Lifestyle': '🛍️',
+            'Travel': '✈️'
+        };
+
+        const newExpense = {
+            description,
+            category,
+            date,
+            account,
+            amount: parsedAmount,
+            icon: iconMap[category] || '💰'
+        };
+
+        if (onAddExpense) {
+            onAddExpense(newExpense);
+        }
+
+        // Reset fields
+        setAmount('');
+        setDescription('');
+    };
+
     return (
         <div className="add-expense-panel">
             <div className="panel-header">
@@ -8,40 +52,59 @@ const AddExpensePanel = () => {
                 <button className="close-panel-btn">✕</button>
             </div>
 
-            <form className="add-expense-form">
+            <form className="add-expense-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>AMOUNT</label>
                     <div className="amount-input-wrapper">
                         <span className="currency-symbol">$</span>
-                        <input type="text" placeholder="0.00" />
+                        <input
+                            type="text"
+                            placeholder="0.00"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                        />
                     </div>
                 </div>
 
                 <div className="form-group">
                     <label>DESCRIPTION</label>
-                    <input type="text" placeholder="e.g. Starbucks, Uber Trip" />
+                    <input
+                        type="text"
+                        placeholder="e.g. Starbucks, Uber Trip"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
                 </div>
 
                 <div className="form-row">
                     <div className="form-group half-width">
                         <label>CATEGORY</label>
-                        <select defaultValue="Food">
+                        <select value={category} onChange={(e) => setCategory(e.target.value)}>
                             <option value="Food">🥘 Food & Drink</option>
+                            <option value="Software">💻 Software</option>
+                            <option value="Lifestyle">🛍️ Lifestyle</option>
+                            <option value="Travel">✈️ Travel</option>
+                            <option value="Income">💼 Income</option>
                         </select>
                     </div>
                     <div className="form-group half-width">
                         <label>DATE</label>
                         <div className="date-input-wrapper">
                             <span className="calendar-icon">📅</span>
-                            <input type="text" defaultValue="10/25/2023" />
+                            <input
+                                type="text"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                            />
                         </div>
                     </div>
                 </div>
 
                 <div className="form-group">
                     <label>ACCOUNT / WALLET</label>
-                    <select defaultValue="Primary">
+                    <select value={account} onChange={(e) => setAccount(e.target.value)}>
                         <option value="Primary">💳 Primary Checking •••• 4590</option>
+                        <option value="CreditCard">💳 Visa Credit Card •••• 8842</option>
                     </select>
                 </div>
 
@@ -56,7 +119,7 @@ const AddExpensePanel = () => {
                     </div>
                 </div>
 
-                <button type="button" className="save-expense-btn">
+                <button type="submit" className="save-expense-btn">
                     <span className="save-icon">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                     </span>

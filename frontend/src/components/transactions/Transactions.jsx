@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../dashboard/Sidebar';
 import TransactionSummary from './TransactionSummary';
 import TransactionFilters from './TransactionFilters';
@@ -8,6 +8,23 @@ import { mockDashboardData, mockTransactionsData } from '../../data/mockData';
 import '../../styles/Transactions.css';
 
 const Transactions = () => {
+    const [transactions, setTransactions] = useState(mockTransactionsData.transactions);
+
+    const handleAddExpense = (newExpenseData) => {
+        const newTx = {
+            id: Date.now(),
+            title: newExpenseData.description,
+            subtitle: newExpenseData.account,
+            category: newExpenseData.category,
+            date: newExpenseData.date,
+            status: "Completed",
+            icon: newExpenseData.icon,
+            amount: newExpenseData.amount
+        };
+        // Add new transaction to the top of the list
+        setTransactions([newTx, ...transactions]);
+    };
+
     return (
         <div className="dashboard-layout"> {/* Reuse layout wrapper class */}
             <Sidebar />
@@ -35,11 +52,12 @@ const Transactions = () => {
                 <main className="transactions-content-area">
                     <div className="transactions-left-col">
                         <TransactionFilters />
+                        {/* We could potentially dynamically update the summary here too, but passing mock for now */}
                         <TransactionSummary summary={mockTransactionsData.summary} />
-                        <TransactionsList transactions={mockTransactionsData.transactions} pagination={mockTransactionsData.pagination} />
+                        <TransactionsList transactions={transactions} pagination={{ showing: `1-${transactions.length}`, total: 128 + (transactions.length - 5) }} />
                     </div>
                     <div className="transactions-right-col">
-                        <AddExpensePanel />
+                        <AddExpensePanel onAddExpense={handleAddExpense} />
                     </div>
                 </main>
             </div>

@@ -340,53 +340,18 @@
     color: rgba(255, 255, 255, 0.6);
 }
 
-.virtual-card {
-    margin-top: 2rem;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    padding: 1rem;
-}
-
-.virtual-card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
+.balance-footer {
+    margin-top: 1.5rem;
     color: rgba(255, 255, 255, 0.8);
-}
-
-.card-type {
-    font-weight: 700;
-    font-style: italic;
-    letter-spacing: 1px;
-}
-
-.virtual-card-bottom {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.card-holder-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.card-holder-label {
-    font-size: 0.6rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 0.25rem;
+    justify-content: flex-end;
+    /* push name to right side conceptually or could just leave it left */
 }
 
 .card-holder-name {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     font-weight: 600;
     letter-spacing: 1px;
-}
-
-.card-number {
-    font-size: 0.9rem;
-    letter-spacing: 2px;
 }
 
 /* ================== INCOME & EXPENSES ================== */
