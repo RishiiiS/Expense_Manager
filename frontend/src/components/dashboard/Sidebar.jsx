@@ -5,7 +5,7 @@ const Sidebar = () => {
     return (
         <aside className="dashboard-sidebar">
             <div className="sidebar-logo">
-                <span className="logo-icon">$</span> MoneyTree
+                <span className="logo-icon">₹</span> MoneyTree
             </div>
 
             <nav className="sidebar-nav">
@@ -34,27 +34,8 @@ const Sidebar = () => {
                             Transactions
                         </NavLink>
                     </li>
-                    <li>
-                        <a href="#wallets" className="nav-item">
-                            <span className="nav-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                            </span>
-                            Wallets
-                        </a>
-                    </li>
                 </ul>
             </nav>
-
-            <div className="sidebar-promo">
-                <div className="promo-card">
-                    <div className="promo-header">
-                        <h4>Upgrade to Pro</h4>
-                        <span className="promo-badge">NEW</span>
-                    </div>
-                    <p className="promo-text">Get advanced AI insights and unlimited wallet connections.</p>
-                    <button className="promo-btn">View Plans</button>
-                </div>
-            </div>
         </aside>
     );
 };

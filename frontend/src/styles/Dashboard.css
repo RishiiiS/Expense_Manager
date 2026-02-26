@@ -93,64 +93,6 @@
     color: var(--text-muted);
 }
 
-.sidebar-promo {
-    margin-top: auto;
-}
-
-.promo-card {
-    background-color: var(--dash-card-bg);
-    border: 1px solid var(--dash-card-border);
-    border-radius: 12px;
-    padding: 1.25rem;
-}
-
-.promo-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.promo-header h4 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin: 0;
-}
-
-.promo-badge {
-    background-color: rgba(255, 51, 51, 0.15);
-    color: var(--accent-red);
-    font-size: 0.6rem;
-    font-weight: 700;
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-}
-
-.promo-text {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    line-height: 1.4;
-    margin-bottom: 1rem;
-}
-
-.promo-btn {
-    width: 100%;
-    background-color: #f59e0b;
-    /* Yellow action button */
-    color: #000;
-    border: none;
-    padding: 0.6rem;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-}
-
-.promo-btn:hover {
-    opacity: 0.9;
-}
-
 /* ================== MAIN CONTENT & TOPBAR ================== */
 .dashboard-main-content {
     flex: 1;

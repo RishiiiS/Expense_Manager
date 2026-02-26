@@ -20,7 +20,7 @@ const RecentActivity = ({ activities }) => {
                         </div>
                         <div className="activity-amount-group">
                             <span className={`activity-amount ${activity.amount > 0 ? 'positive' : 'negative'}`}>
-                                {activity.amount > 0 ? '+' : ''}${Math.abs(activity.amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                {activity.amount > 0 ? '+' : ''}₹{Math.abs(activity.amount).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                             </span>
                             <span className="activity-type">{activity.type}</span>
                         </div>

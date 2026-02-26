@@ -33,7 +33,7 @@ const SpendingByCategory = ({ data }) => {
                                 ></div>
                             </div>
                             <div className="category-amount">
-                                ${item.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                ₹{item.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                             </div>
                         </div>
                     ))}

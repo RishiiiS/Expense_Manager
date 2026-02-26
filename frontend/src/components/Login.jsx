@@ -7,7 +7,7 @@ const Login = () => {
         <div className="login-page">
             <header className="login-header">
                 <div className="login-logo">
-                    <span className="logo-icon">$</span> MoneyTree
+                    <span className="logo-icon">₹</span> MoneyTree
                 </div>
                 <div className="login-header-right">
                     <span className="new-here-text">New here?</span>

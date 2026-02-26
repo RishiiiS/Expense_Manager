@@ -8,7 +8,7 @@ export const IncomeExpenseCards = ({ income, expenses }) => {
                     <span className="stat-label">Income</span>
                     <span className="stat-icon income-icon">↑</span>
                 </div>
-                <h3 className="stat-amount">${income.toLocaleString('en-US')}</h3>
+                <h3 className="stat-amount">₹{income.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h3>
                 <div className="stat-chart-placeholder income-chart">
                     {/* Placeholder for small sparkline chart */}
                     <svg width="100%" height="40" viewBox="0 0 100 40" preserveAspectRatio="none">
@@ -22,7 +22,7 @@ export const IncomeExpenseCards = ({ income, expenses }) => {
                     <span className="stat-label">Expenses</span>
                     <span className="stat-icon expense-icon">↓</span>
                 </div>
-                <h3 className="stat-amount">${expenses.toLocaleString('en-US')}</h3>
+                <h3 className="stat-amount">₹{expenses.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h3>
                 <div className="stat-chart-placeholder expense-chart">
                     {/* Placeholder for small sparkline chart */}
                     <svg width="100%" height="40" viewBox="0 0 100 40" preserveAspectRatio="none">

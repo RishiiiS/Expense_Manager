@@ -56,7 +56,7 @@ const AddExpensePanel = ({ onAddExpense }) => {
                 <div className="form-group">
                     <label>AMOUNT</label>
                     <div className="amount-input-wrapper">
-                        <span className="currency-symbol">$</span>
+                        <span className="currency-symbol">₹</span>
                         <input
                             type="text"
                             placeholder="0.00"

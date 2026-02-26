@@ -40,7 +40,7 @@ const TransactionsList = ({ transactions, pagination }) => {
                             </td>
                             <td className="tx-amount">
                                 <span className={`amount ${tx.amount > 0 ? 'positive' : 'negative'}`} style={{ fontWeight: 600, color: tx.amount > 0 ? '#fbbf24' : 'var(--text-main)' }}>
-                                    {tx.amount > 0 ? '+' : ''}${Math.abs(tx.amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                    {tx.amount > 0 ? '+' : ''}₹{Math.abs(tx.amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                                 </span>
                             </td>
                             <td>
