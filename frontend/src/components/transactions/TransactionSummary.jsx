@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TransactionSummary = ({ summary }) => {
+const TransactionSummary = ({ summary, onEditExpenses, onEditIncome }) => {
     return (
         <div className="transaction-summary-row">
             <div className="summary-card expenses-card">
@@ -9,7 +9,9 @@ const TransactionSummary = ({ summary }) => {
                     <h2 className="summary-amount">₹{summary.totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h2>
                     <span className="summary-change negative">{summary.expensesChange}</span>
                 </div>
-                <div className="summary-icon empty-icon"></div>
+                <button className="summary-icon summary-edit-btn" onClick={onEditExpenses}>
+                    Edit
+                </button>
             </div>
 
             <div className="summary-card income-card">
@@ -18,7 +20,9 @@ const TransactionSummary = ({ summary }) => {
                     <h2 className="summary-amount">₹{summary.totalIncome.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h2>
                     <span className="summary-change positive">{summary.incomeChange}</span>
                 </div>
-                <div className="summary-icon empty-icon"></div>
+                <button className="summary-icon summary-edit-btn" onClick={onEditIncome}>
+                    Edit
+                </button>
             </div>
         </div>
     );

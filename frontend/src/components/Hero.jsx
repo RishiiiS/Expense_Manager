@@ -22,9 +22,6 @@ const Hero = () => {
                 </p>
                 <div className="hero-actions">
                     <button className="join-btn">JOIN THE PROJECT</button>
-                    <a href="#manifesto" className="manifesto-link">
-                        <span className="arrow-down">↓</span> THE MANIFESTO
-                    </a>
                 </div>
             </div>
         </section>

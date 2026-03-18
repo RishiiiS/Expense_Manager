@@ -11,9 +11,6 @@ const CallToAction = () => {
                 </h2>
                 <div className="cta-actions">
                     <button className="get-started-btn">GET STARTED NOW</button>
-                    <a href="#documentation" className="documentation-link">
-                        DOCUMENTATION <span className="arrow-right">→</span>
-                    </a>
                 </div>
             </div>
         </section>

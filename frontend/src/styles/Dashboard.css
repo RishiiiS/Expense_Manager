@@ -6,6 +6,12 @@
     --dash-sidebar-w: 260px;
 }
 
+:root[data-theme='light'] {
+    --dash-bg: #f8fafc;
+    --dash-card-bg: rgba(15, 23, 42, 0.04);
+    --dash-card-border: rgba(15, 23, 42, 0.12);
+}
+
 .dashboard-layout {
     display: flex;
     height: 100vh;
@@ -33,6 +39,8 @@
     font-size: 1.25rem;
     font-weight: 700;
     margin-bottom: 2.5rem;
+    color: var(--text-main);
+    text-decoration: none;
 }
 
 .sidebar-logo .logo-icon {
@@ -91,6 +99,48 @@
 .nav-icon {
     display: flex;
     color: var(--text-muted);
+}
+
+.sidebar-settings {
+    margin-top: 1rem;
+}
+
+.settings-trigger {
+    width: 100%;
+    border: 1px solid transparent;
+    background: transparent;
+}
+
+.settings-menu {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 10px;
+    border: 1px solid var(--dash-card-border);
+    background-color: var(--dash-card-bg);
+}
+
+.settings-action-btn {
+    width: 100%;
+    border: 1px solid var(--dash-card-border);
+    background: transparent;
+    color: var(--text-main);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.settings-action-btn:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.logout-btn {
+    color: var(--accent-red);
 }
 
 /* ================== MAIN CONTENT & TOPBAR ================== */

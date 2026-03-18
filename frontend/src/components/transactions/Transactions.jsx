@@ -7,8 +7,57 @@ import AddExpensePanel from './AddExpensePanel';
 import { mockDashboardData, mockTransactionsData } from '../../data/mockData';
 import '../../styles/Transactions.css';
 
+const parseTransactionDate = (transaction) => {
+    if (transaction.createdAt) {
+        const createdAtTime = new Date(transaction.createdAt).getTime();
+        if (!Number.isNaN(createdAtTime)) return createdAtTime;
+    }
+
+    const parsedDate = new Date(transaction.date).getTime();
+    if (!Number.isNaN(parsedDate)) return parsedDate;
+
+    return Number(transaction.id) || 0;
+};
+
 const Transactions = () => {
     const [transactions, setTransactions] = useState(mockTransactionsData.transactions);
+    const [summary, setSummary] = useState(mockTransactionsData.summary);
+    const [dateFilter, setDateFilter] = useState('all_dates');
+    const [categoryFilter, setCategoryFilter] = useState('all');
+    const [typeFilter, setTypeFilter] = useState('all');
+    const sortedTransactions = [...transactions].sort((a, b) => parseTransactionDate(b) - parseTransactionDate(a));
+    const filteredTransactions = sortedTransactions.filter((transaction) => {
+        const transactionDate = new Date(parseTransactionDate(transaction));
+        const now = new Date();
+
+        const matchesDate = (() => {
+            if (dateFilter === 'all_dates') return true;
+            if (Number.isNaN(transactionDate.getTime())) return false;
+
+            if (dateFilter === 'this_month') {
+                return (
+                    transactionDate.getMonth() === now.getMonth() &&
+                    transactionDate.getFullYear() === now.getFullYear()
+                );
+            }
+
+            if (dateFilter === 'last_30_days') {
+                const thirtyDaysAgo = new Date(now.getTime() - (30 * 24 * 60 * 60 * 1000));
+                return transactionDate >= thirtyDaysAgo;
+            }
+
+            return true;
+        })();
+
+        const matchesCategory = categoryFilter === 'all' || transaction.category === categoryFilter;
+        const matchesType =
+            typeFilter === 'all' ||
+            (typeFilter === 'income' && transaction.amount > 0) ||
+            (typeFilter === 'expense' && transaction.amount < 0);
+
+        return matchesDate && matchesCategory && matchesType;
+    });
+    const visibleTransactions = filteredTransactions.slice(0, 8);
 
     const handleAddExpense = (newExpenseData) => {
         const newTx = {
@@ -19,10 +68,39 @@ const Transactions = () => {
             date: newExpenseData.date,
             status: "Completed",
             icon: newExpenseData.icon,
-            amount: newExpenseData.amount
+            amount: newExpenseData.amount,
+            createdAt: new Date().toISOString()
         };
-        // Add new transaction to the top of the list
-        setTransactions([newTx, ...transactions]);
+
+        setTransactions((prevTransactions) => [newTx, ...prevTransactions]);
+    };
+
+    const handleEditExpenses = () => {
+        const nextValue = window.prompt('Enter new total expenses amount', String(summary.totalExpenses));
+        if (nextValue === null) return;
+
+        const parsedValue = Number.parseFloat(nextValue);
+        if (Number.isNaN(parsedValue)) return;
+
+        setSummary((prev) => ({
+            ...prev,
+            totalExpenses: parsedValue,
+            expensesChange: 'Manually updated'
+        }));
+    };
+
+    const handleEditIncome = () => {
+        const nextValue = window.prompt('Enter new total income amount', String(summary.totalIncome));
+        if (nextValue === null) return;
+
+        const parsedValue = Number.parseFloat(nextValue);
+        if (Number.isNaN(parsedValue)) return;
+
+        setSummary((prev) => ({
+            ...prev,
+            totalIncome: parsedValue,
+            incomeChange: 'Manually updated'
+        }));
     };
 
     return (
@@ -51,10 +129,27 @@ const Transactions = () => {
 
                 <main className="transactions-content-area">
                     <div className="transactions-left-col">
-                        <TransactionFilters />
+                        <TransactionFilters
+                            dateFilter={dateFilter}
+                            categoryFilter={categoryFilter}
+                            typeFilter={typeFilter}
+                            onDateFilterChange={setDateFilter}
+                            onCategoryFilterChange={setCategoryFilter}
+                            onTypeFilterChange={setTypeFilter}
+                        />
                         {/* We could potentially dynamically update the summary here too, but passing mock for now */}
-                        <TransactionSummary summary={mockTransactionsData.summary} />
-                        <TransactionsList transactions={transactions} pagination={{ showing: `1-${transactions.length}`, total: 128 + (transactions.length - 5) }} />
+                        <TransactionSummary
+                            summary={summary}
+                            onEditExpenses={handleEditExpenses}
+                            onEditIncome={handleEditIncome}
+                        />
+                        <TransactionsList
+                            transactions={visibleTransactions}
+                            pagination={{
+                                showing: `1-${visibleTransactions.length}`,
+                                total: filteredTransactions.length
+                            }}
+                        />
                     </div>
                     <div className="transactions-right-col">
                         <AddExpensePanel onAddExpense={handleAddExpense} />

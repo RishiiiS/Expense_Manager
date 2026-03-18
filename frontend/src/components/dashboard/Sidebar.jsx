@@ -1,12 +1,35 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+    const [theme, setTheme] = useState('dark');
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme');
+        const initialTheme = savedTheme === 'light' ? 'light' : 'dark';
+        setTheme(initialTheme);
+        document.documentElement.setAttribute('data-theme', initialTheme);
+    }, []);
+
+    const handleToggleTheme = () => {
+        const nextTheme = theme === 'dark' ? 'light' : 'dark';
+        setTheme(nextTheme);
+        localStorage.setItem('theme', nextTheme);
+        document.documentElement.setAttribute('data-theme', nextTheme);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    };
+
     return (
         <aside className="dashboard-sidebar">
-            <div className="sidebar-logo">
+            <a href="/#about" className="sidebar-logo">
                 <span className="logo-icon">₹</span> MoneyTree
-            </div>
+            </a>
 
             <nav className="sidebar-nav">
                 <ul className="nav-list">
@@ -36,6 +59,29 @@ const Sidebar = () => {
                     </li>
                 </ul>
             </nav>
+
+            <div className="sidebar-settings">
+                <button className="nav-item settings-trigger" onClick={() => setIsSettingsOpen((prev) => !prev)}>
+                    <span className="nav-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06A2 2 0 1 1 4.39 16.96l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06A2 2 0 1 1 7.04 4.4l.06.06a1.65 1.65 0 0 0 1.82.33h.01A1.65 1.65 0 0 0 10 3.28V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06A2 2 0 1 1 19.6 7.04l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </span>
+                    Settings
+                </button>
+
+                {isSettingsOpen && (
+                    <div className="settings-menu">
+                        <button className="settings-action-btn" onClick={handleToggleTheme}>
+                            Change Theme: {theme === 'dark' ? 'Light' : 'Dark'}
+                        </button>
+                        <button className="settings-action-btn logout-btn" onClick={handleLogout}>
+                            Logout
+                        </button>
+                    </div>
+                )}
+            </div>
         </aside>
     );
 };

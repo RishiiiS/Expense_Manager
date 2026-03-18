@@ -29,6 +29,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root[data-theme='light'] {
+  --bg-color: #f8fafc;
+  --bg-gradient: radial-gradient(circle at top right, #ffffff 0%, #f1f5f9 100%);
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --border-color: #cbd5e1;
+  color-scheme: light;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -37,7 +46,7 @@
 
 body {
   min-height: 100vh;
-  background-color: rgb(11,11,14);
+  background-color: var(--bg-color);
   overflow-x: hidden;
 }
 

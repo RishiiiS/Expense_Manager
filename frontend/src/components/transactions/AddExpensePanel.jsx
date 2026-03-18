@@ -11,7 +11,7 @@ const AddExpensePanel = ({ onAddExpense }) => {
         e.preventDefault();
         if (!amount || !description) return;
 
-        let parsedAmount = parseFloat(amount.replace(/[^0-9.-]+/g, ""));
+        let parsedAmount = parseFloat(amount);
         if (isNaN(parsedAmount)) parsedAmount = 0;
 
         // Make it an expense (negative) unless it is Income category
@@ -19,21 +19,13 @@ const AddExpensePanel = ({ onAddExpense }) => {
             parsedAmount = -parsedAmount;
         }
 
-        const iconMap = {
-            'Food': '🥘',
-            'Software': '💻',
-            'Income': '💼',
-            'Lifestyle': '🛍️',
-            'Travel': '✈️'
-        };
-
         const newExpense = {
             description,
             category,
             date,
             account,
             amount: parsedAmount,
-            icon: iconMap[category] || '💰'
+            icon: category.charAt(0).toUpperCase()
         };
 
         if (onAddExpense) {
@@ -49,7 +41,6 @@ const AddExpensePanel = ({ onAddExpense }) => {
         <div className="add-expense-panel">
             <div className="panel-header">
                 <h2>Add New Expense</h2>
-                <button className="close-panel-btn">✕</button>
             </div>
 
             <form className="add-expense-form" onSubmit={handleSubmit}>
@@ -61,7 +52,13 @@ const AddExpensePanel = ({ onAddExpense }) => {
                             type="text"
                             placeholder="0.00"
                             value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
+                            inputMode="decimal"
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (/^\d*\.?\d*$/.test(value)) {
+                                    setAmount(value);
+                                }
+                            }}
                         />
                     </div>
                 </div>
@@ -80,17 +77,16 @@ const AddExpensePanel = ({ onAddExpense }) => {
                     <div className="form-group half-width">
                         <label>CATEGORY</label>
                         <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                            <option value="Food">🥘 Food & Drink</option>
-                            <option value="Software">💻 Software</option>
-                            <option value="Lifestyle">🛍️ Lifestyle</option>
-                            <option value="Travel">✈️ Travel</option>
-                            <option value="Income">💼 Income</option>
+                            <option value="Food">Food & Drink</option>
+                            <option value="Software">Software</option>
+                            <option value="Lifestyle">Lifestyle</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Income">Income</option>
                         </select>
                     </div>
                     <div className="form-group half-width">
                         <label>DATE</label>
                         <div className="date-input-wrapper">
-                            <span className="calendar-icon">📅</span>
                             <input
                                 type="text"
                                 value={date}
@@ -101,10 +97,10 @@ const AddExpensePanel = ({ onAddExpense }) => {
                 </div>
 
                 <div className="form-group">
-                    <label>ACCOUNT / WALLET</label>
+                    <label>PAYMENT METHOD</label>
                     <select value={account} onChange={(e) => setAccount(e.target.value)}>
-                        <option value="Primary">💳 Primary Checking •••• 4590</option>
-                        <option value="CreditCard">💳 Visa Credit Card •••• 8842</option>
+                        <option value="Primary">Primary Checking •••• 4590</option>
+                        <option value="CreditCard">Visa Credit Card •••• 8842</option>
                     </select>
                 </div>
 

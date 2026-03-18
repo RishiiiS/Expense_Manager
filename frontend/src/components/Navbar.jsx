@@ -5,9 +5,9 @@ import '../styles/Navbar.css';
 const Navbar = () => {
     return (
         <nav className="navbar">
-            <div className="navbar-logo">
+            <a href="/#about" className="navbar-logo">
                 <span className="logo-icon">₹</span> MoneyTree
-            </div>
+            </a>
             <ul className="navbar-links">
                 <li><Link to="/dashboard">Dashboard</Link></li>
                 <li><a href="#features">Features</a></li>

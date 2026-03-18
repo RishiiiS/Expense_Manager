@@ -68,7 +68,7 @@
     background-color: var(--dash-card-bg);
     border: 1px solid var(--dash-card-border);
     color: var(--text-main);
-    padding: 0.5rem 0.8rem;
+    padding: 0.5rem 0.7rem;
     border-radius: 6px;
     font-size: 0.85rem;
     font-weight: 500;
@@ -88,6 +88,24 @@
     color: var(--text-muted);
 }
 
+.filter-select {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 0.3rem;
+    min-width: 110px;
+}
+
+.filter-select option {
+    color: #111;
+}
+
 .chevron {
     display: flex;
     margin-left: 0.2rem;
@@ -100,30 +118,24 @@
 }
 
 .action-btn {
-    width: 36px;
+    min-height: 36px;
     height: 36px;
+    padding: 0 0.8rem;
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 0.45rem;
     cursor: pointer;
     border: 1px solid var(--dash-card-border);
     transition: all 0.2s;
 }
 
-.add-btn {
-    background-color: var(--accent-red);
-    color: white;
-    border-color: var(--accent-red);
-}
-
-.add-btn:hover {
-    background-color: #dc2626;
-}
-
 .export-btn {
     background-color: var(--dash-card-bg);
     color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .export-btn:hover {
@@ -182,40 +194,25 @@
 }
 
 .summary-icon {
-    width: 36px;
+    min-width: 56px;
     height: 36px;
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--dash-card-border);
+    color: var(--text-main);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* Diagonal line placeholder for icon */
-.expenses-card .summary-icon {
-    position: relative;
+.summary-edit-btn {
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
-.expenses-card .summary-icon::before {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 2px;
-    background-color: var(--accent-red);
-    transform: rotate(45deg);
-}
-
-.income-card .summary-icon {
-    position: relative;
-}
-
-.income-card .summary-icon::before {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 2px;
-    background-color: #fbbf24;
-    transform: rotate(-45deg);
+.summary-edit-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 
@@ -444,7 +441,7 @@ input[type="checkbox"]:checked::after {
 
 .panel-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     padding: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -454,18 +451,6 @@ input[type="checkbox"]:checked::after {
     font-size: 1.1rem;
     font-weight: 600;
     margin: 0;
-}
-
-.close-panel-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    cursor: pointer;
-}
-
-.close-panel-btn:hover {
-    color: var(--text-main);
 }
 
 .add-expense-form {
@@ -564,15 +549,8 @@ input[type="checkbox"]:checked::after {
     align-items: center;
 }
 
-.calendar-icon {
-    position: absolute;
-    left: 1rem;
-    pointer-events: none;
-    font-size: 1rem;
-}
-
 .date-input-wrapper input {
-    padding-left: 2.5rem !important;
+    padding-left: 1rem !important;
     width: 100%;
 }
 
