@@ -1,7 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { getCurrentMonthKey, upsertCurrentMonthlyProfile } from '../utils/monthlyProfile';
 
 const SignIn = () => {
+    const navigate = useNavigate();
+
+    const handleMonthlySetup = (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+
+        const totalMonthlyIncome = Number(formData.get('totalMonthlyIncome') || 0);
+        const incomeSource = String(formData.get('incomeSource') || '').trim();
+        const savingTarget = Number(formData.get('savingTarget') || 0);
+
+        if (!totalMonthlyIncome || !incomeSource || !savingTarget) {
+            return;
+        }
+
+        upsertCurrentMonthlyProfile({
+            totalMonthlyIncome,
+            incomeSource,
+            savingTarget
+        });
+
+        if (!localStorage.getItem('token')) {
+            localStorage.setItem('token', 'demo-session-token');
+        }
+
+        navigate('/dashboard');
+    };
+
     return (
         <div className="login-page">
             <header className="login-header">
@@ -17,93 +45,67 @@ const SignIn = () => {
             <main className="login-main">
                 <div className="login-card">
                     <div className="login-card-header">
-                        <h1 className="login-title">Create an Account</h1>
-                        <p className="login-subtitle">Join us and start managing your finances better</p>
+                        <h1 className="login-title">Monthly Profile Setup</h1>
+                        <p className="login-subtitle">
+                            Share your financial details for {getCurrentMonthKey()} to personalize dashboard and analytics
+                        </p>
                     </div>
 
-                    <form className="login-form">
+                    <form className="login-form" onSubmit={handleMonthlySetup}>
                         <div className="form-group">
-                            <label htmlFor="name">Full Name</label>
+                            <label htmlFor="totalMonthlyIncome">Total Monthly Income</label>
                             <div className="input-wrapper">
                                 <span className="input-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7H14.5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                </span>
+                                <input
+                                    type="number"
+                                    id="totalMonthlyIncome"
+                                    name="totalMonthlyIncome"
+                                    placeholder="e.g. 120000"
+                                    min="1"
+                                    step="0.01"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="incomeSource">Income Source</label>
+                            <div className="input-wrapper">
+                                <span className="input-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12h18"></path><path d="M12 3c3.5 3 3.5 15 0 18"></path><path d="M12 3c-3.5 3-3.5 15 0 18"></path></svg>
                                 </span>
                                 <input
                                     type="text"
-                                    id="name"
-                                    placeholder="John Doe"
+                                    id="incomeSource"
+                                    name="incomeSource"
+                                    placeholder="e.g. Salary, Freelance, Business"
+                                    required
                                 />
                             </div>
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="email">Email Address</label>
+                            <label htmlFor="savingTarget">Saving Target</label>
                             <div className="input-wrapper">
                                 <span className="input-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20"></path><path d="M5 9h14"></path></svg>
                                 </span>
                                 <input
-                                    type="email"
-                                    id="email"
-                                    placeholder="student@university.edu"
+                                    type="number"
+                                    id="savingTarget"
+                                    name="savingTarget"
+                                    placeholder="e.g. 35000"
+                                    min="1"
+                                    step="0.01"
+                                    required
                                 />
                             </div>
                         </div>
 
-                        <div className="form-group">
-                            <label htmlFor="password">Password</label>
-                            <div className="input-wrapper">
-                                <span className="input-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                </span>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    placeholder="••••••••"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="confirmPassword">Confirm Password</label>
-                            <div className="input-wrapper">
-                                <span className="input-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
-                                </span>
-                                <input
-                                    type="password"
-                                    id="confirmPassword"
-                                    placeholder="••••••••"
-                                />
-                            </div>
-                        </div>
-
-                        <button type="submit" className="sign-in-btn-main">Create Account</button>
+                        <button type="submit" className="sign-in-btn-main">Save Monthly Details</button>
                     </form>
-
-                    <div className="auth-divider">
-                        <span>OR SIGN UP WITH</span>
-                    </div>
-
-                    <div className="social-login">
-                        <button type="button" className="social-btn google-btn">
-                            <span className="social-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                                </svg>
-                            </span> Google
-                        </button>
-                        <button type="button" className="social-btn github-btn">
-                            <span className="social-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 0z" />
-                                </svg>
-                            </span> GitHub
-                        </button>
-                    </div>
                 </div>
             </main>
 

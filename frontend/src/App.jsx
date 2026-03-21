@@ -7,10 +7,19 @@ import Transactions from './components/transactions/Transactions';
 import AddExpensePage from './components/transactions/AddExpensePage';
 import './App.css';
 import AnalyticsPage from './components/analytics/AnalyticsPage';
+import { hasCurrentMonthProfile } from './utils/monthlyProfile';
 
 const ProtectedRoute = ({ children }) => {
   const isLoggedIn = Boolean(localStorage.getItem('token'));
-  return isLoggedIn ? children : <Navigate to="/login" replace />;
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (!hasCurrentMonthProfile()) {
+    return <Navigate to="/register" replace />;
+  }
+
+  return children;
 };
 
 function App() {

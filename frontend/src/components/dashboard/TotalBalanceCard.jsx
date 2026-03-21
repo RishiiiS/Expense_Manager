@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TotalBalanceCard = ({ balance, change, cardDetails }) => {
+const TotalBalanceCard = ({ balance, change, cardDetails, savingsTarget }) => {
     return (
         <div className="dashboard-card balance-card">
             <div className="balance-header">
@@ -17,6 +17,9 @@ const TotalBalanceCard = ({ balance, change, cardDetails }) => {
 
             <div className="balance-footer">
                 <span className="card-holder-name">{cardDetails.holder}</span>
+                {Boolean(savingsTarget) && (
+                    <span className="card-holder-name">Target: ₹{savingsTarget.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+                )}
             </div>
         </div>
     );

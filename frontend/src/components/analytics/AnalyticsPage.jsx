@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AnalyticsPage.css';
 import Sidebar from '../dashboard/Sidebar';
+import { getCurrentMonthlyProfile } from '../../utils/monthlyProfile';
 
 const TRANSACTIONS = [
   { id: 1, date: '2023-10-01', type: 'income', category: 'Salary', amount: 4500 },
@@ -99,8 +100,13 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   const [dateTo, setDateTo] = useState(DEFAULT_TO_DATE);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
+  const monthlyProfile = useMemo(() => getCurrentMonthlyProfile(), []);
 
   const isAnalyticsView = activeMenu === 'analytics';
+  const registeredMonthlyIncome = monthlyProfile?.totalMonthlyIncome || 0;
+  const registeredIncomeSource = monthlyProfile?.incomeSource || 'Pro Account';
+  const registeredSavingsTarget = monthlyProfile?.savingTarget || SAVINGS_TARGET;
+  const baselineAmount = registeredMonthlyIncome || STARTING_BALANCE;
   const categoryOptions = useMemo(
     () => [...new Set(TRANSACTIONS.map((transaction) => transaction.category))],
     [],
@@ -136,9 +142,9 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   );
 
   const netSavings = incomeTotal - expenseTotal;
-  const currentBalance = STARTING_BALANCE + netSavings;
-  const savingsProgress = Math.max(0, Math.min((currentBalance / SAVINGS_TARGET) * 100, 100));
-  const balanceGrowth = ((currentBalance - STARTING_BALANCE) / STARTING_BALANCE) * 100;
+  const currentBalance = baselineAmount + netSavings;
+  const savingsProgress = Math.max(0, Math.min((currentBalance / registeredSavingsTarget) * 100, 100));
+  const balanceGrowth = baselineAmount ? ((currentBalance - baselineAmount) / baselineAmount) * 100 : 0;
 
   const expenseByCategory = useMemo(() => {
     const totals = {};
@@ -311,7 +317,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
             </button>
             <div className="user-info">
               <p>Alexander Rossi</p>
-              <span>Pro Account</span>
+              <span>{registeredIncomeSource}</span>
             </div>
             <div className="avatar">AR</div>
           </div>
@@ -322,7 +328,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
             <section className="kpi-grid">
               <article className="kpi-card">
                 <div className="kpi-header">
-                  <p>STARTING BALANCE</p>
+                  <p>{registeredMonthlyIncome ? 'MONTHLY INCOME' : 'STARTING BALANCE'}</p>
                   <svg className="analytics-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
                     <rect x="3" y="3" width="7" height="7" stroke="currentColor" strokeWidth="2" />
                     <rect x="14" y="3" width="7" height="7" stroke="currentColor" strokeWidth="2" />
@@ -331,7 +337,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
                   </svg>
                 </div>
                 <div className="kpi-value-row">
-                  <h3>{formatRuppee(STARTING_BALANCE)}</h3>
+                  <h3>{formatRuppee(baselineAmount)}</h3>
                   <span className="chip">{filteredTransactions.length} TXNS</span>
                 </div>
               </article>
@@ -375,7 +381,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
                   </svg>
                 </div>
                 <div className="kpi-value-row">
-                  <h3>{formatRuppee(SAVINGS_TARGET)}</h3>
+                  <h3>{formatRuppee(registeredSavingsTarget)}</h3>
                   <span className="muted">{savingsProgress.toFixed(1)}% PROGRESS</span>
                 </div>
               </article>
