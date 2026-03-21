@@ -38,15 +38,18 @@
     overflow: hidden;
 }
 
-.add-expense-page-content {
+.add-expense-standalone {
+    min-height: 100vh;
     padding: 1.5rem 2.5rem;
     display: flex;
+    justify-content: center;
     align-items: flex-start;
+    background-color: var(--dash-bg, var(--bg-color));
 }
 
 .add-expense-page-panel {
     width: min(460px, 100%);
-    height: calc(100vh - 130px);
+    height: calc(100vh - 3rem);
 }
 
 .add-expense-page-panel .add-expense-panel {
