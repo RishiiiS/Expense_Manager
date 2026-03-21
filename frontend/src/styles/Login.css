@@ -4,9 +4,37 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: var(--bg-color);
+    background-color: #070304;
+    background-image:
+        radial-gradient(1200px 520px at 50% 35%, rgba(120, 18, 24, 0.18), transparent 70%),
+        linear-gradient(180deg, #070304 0%, #0a0507 55%, #060304 100%);
     position: relative;
     overflow: hidden;
+}
+
+.login-page::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -28px;
+    transform: translateX(-50%);
+    width: min(1120px, 92vw);
+    height: min(86vh, 860px);
+    background: url('../assets/tree_img.png') no-repeat center bottom / contain;
+    filter: grayscale(1) contrast(1.2) brightness(0.22);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.login-page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(0, 0, 0, 0.72) 0%, rgba(0, 0, 0, 0.46) 28%, rgba(0, 0, 0, 0.7) 100%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 /* =========================================
@@ -80,14 +108,14 @@
    2. Login Card Component
    ========================================= */
 .login-card {
-    background-color: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: rgba(18, 8, 10, 0.64);
+    border: 1px solid rgba(239, 68, 68, 0.2);
     border-radius: 12px;
     padding: 4rem;
     width: 100%;
     max-width: 540px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(12px);
 }
 
 .login-card-header {

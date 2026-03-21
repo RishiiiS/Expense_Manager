@@ -20,9 +20,9 @@ export const mockDashboardData = {
         { category: "Others", amount: 727.50, percentage: 15, color: "#10b981" }  /* Green */
     ],
     recentActivity: [
-        { id: 1, title: "Apple Services", subtitle: "Today, 10:45 AM", amount: -14.99, type: "Subscription", icon: "📱" },
-        { id: 2, title: "Stripe Inc.", subtitle: "Yesterday, 08:30 PM", amount: 8500.00, type: "Salary", icon: "💵" },
-        { id: 3, title: "Zara Store", subtitle: "2 days ago", amount: -189.20, type: "Shopping", icon: "🛍️" }
+        { id: 1, title: "Apple Services", subtitle: "Today, 10:45 AM", amount: -14.99, type: "Subscription", icon: "AS" },
+        { id: 2, title: "Stripe Inc.", subtitle: "Yesterday, 08:30 PM", amount: 8500.00, type: "Salary", icon: "SI" },
+        { id: 3, title: "Zara Store", subtitle: "2 days ago", amount: -189.20, type: "Shopping", icon: "ZS" }
     ],
     cashFlow: {
         months: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
@@ -46,7 +46,7 @@ export const mockTransactionsData = {
             category: "Software",
             date: "Oct 24, 2023",
             status: "Completed",
-            icon: "📱",
+            icon: "AS",
             amount: -14.99
         },
         {
@@ -56,7 +56,7 @@ export const mockTransactionsData = {
             category: "Income",
             date: "Oct 23, 2023",
             status: "Completed",
-            icon: "💼",
+            icon: "SI",
             amount: 8500.00
         },
         {
@@ -66,7 +66,7 @@ export const mockTransactionsData = {
             category: "Food",
             date: "Oct 22, 2023",
             status: "Pending",
-            icon: "☕",
+            icon: "SB",
             amount: -5.50
         },
         {
@@ -76,7 +76,7 @@ export const mockTransactionsData = {
             category: "Lifestyle",
             date: "Oct 21, 2023",
             status: "Completed",
-            icon: "🛍️",
+            icon: "ZR",
             amount: -189.20
         },
         {
@@ -86,7 +86,7 @@ export const mockTransactionsData = {
             category: "Travel",
             date: "Oct 20, 2023",
             status: "Completed",
-            icon: "✈️",
+            icon: "DA",
             amount: -450.00
         }
     ],
