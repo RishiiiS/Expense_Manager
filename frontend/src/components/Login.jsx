@@ -1,8 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
 
 const Login = () => {
+    const navigate = useNavigate();
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        localStorage.setItem('token', 'demo-session-token');
+        navigate('/dashboard');
+    };
+
     return (
         <div className="login-page">
             <header className="login-header">
@@ -22,7 +30,7 @@ const Login = () => {
                         <p className="login-subtitle">Enter your credentials to access your finance dashboard</p>
                     </div>
 
-                    <form className="login-form">
+                    <form className="login-form" onSubmit={handleLogin}>
                         <div className="form-group">
                             <label htmlFor="email">Email Address</label>
                             <div className="input-wrapper">

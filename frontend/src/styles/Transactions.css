@@ -1,9 +1,26 @@
 /* src/styles/Transactions.css */
 /* Reuses variables from Dashboard.css */
 
-.transactions-topbar {
-    padding-bottom: 0.5rem;
-    /* Slight adjustment for visual hierarchy */
+.transactions-topbar .notification-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.transactions-topbar .notification-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-red);
+    border-radius: 50%;
+    border: 2px solid var(--dash-bg);
 }
 
 .page-title {
@@ -19,6 +36,22 @@
     height: calc(100vh - 85px);
     /* Full height minus topbar */
     overflow: hidden;
+}
+
+.add-expense-page-content {
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.add-expense-page-panel {
+    width: min(460px, 100%);
+    height: calc(100vh - 130px);
+}
+
+.add-expense-page-panel .add-expense-panel {
+    border-left: none;
+    border: 1px solid var(--dash-card-border);
 }
 
 .transactions-left-col {

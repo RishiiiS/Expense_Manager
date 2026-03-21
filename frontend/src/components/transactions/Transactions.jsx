@@ -5,6 +5,11 @@ import TransactionFilters from './TransactionFilters';
 import TransactionsList from './TransactionsList';
 import AddExpensePanel from './AddExpensePanel';
 import { mockDashboardData, mockTransactionsData } from '../../data/mockData';
+import {
+    appendStoredTransaction,
+    createTransactionFromExpenseData,
+    hydrateTransactions
+} from '../../utils/transactionsStorage';
 import '../../styles/Transactions.css';
 
 const parseTransactionDate = (transaction) => {
@@ -20,7 +25,7 @@ const parseTransactionDate = (transaction) => {
 };
 
 const Transactions = () => {
-    const [transactions, setTransactions] = useState(mockTransactionsData.transactions);
+    const [transactions, setTransactions] = useState(() => hydrateTransactions(mockTransactionsData.transactions));
     const [summary, setSummary] = useState(mockTransactionsData.summary);
     const [dateFilter, setDateFilter] = useState('all_dates');
     const [categoryFilter, setCategoryFilter] = useState('all');
@@ -60,18 +65,8 @@ const Transactions = () => {
     const visibleTransactions = filteredTransactions.slice(0, 8);
 
     const handleAddExpense = (newExpenseData) => {
-        const newTx = {
-            id: Date.now(),
-            title: newExpenseData.description,
-            subtitle: newExpenseData.account,
-            category: newExpenseData.category,
-            date: newExpenseData.date,
-            status: "Completed",
-            icon: newExpenseData.icon,
-            amount: newExpenseData.amount,
-            createdAt: new Date().toISOString()
-        };
-
+        const newTx = createTransactionFromExpenseData(newExpenseData);
+        appendStoredTransaction(newTx);
         setTransactions((prevTransactions) => [newTx, ...prevTransactions]);
     };
 
@@ -109,14 +104,20 @@ const Transactions = () => {
             <div className="dashboard-main-content">
                 {/* Custom Topbar for Transactions */}
                 <header className="dashboard-topbar transactions-topbar">
-                    <h1 className="page-title">Transactions</h1>
+                    <div className="search-container small-search">
+                        <span className="search-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </span>
+                        <input type="text" placeholder="Search..." className="search-input" />
+                    </div>
                     <div className="topbar-actions">
-                        <div className="search-container small-search">
-                            <span className="search-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                            </span>
-                            <input type="text" placeholder="Search..." className="search-input" />
-                        </div>
+                        <button className="notification-btn" aria-label="Notifications">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M15 17H9"></path>
+                                <path d="M18 17V11C18 7.69 15.31 5 12 5C8.69 5 6 7.69 6 11V17L4 19H20L18 17Z"></path>
+                            </svg>
+                            <span className="notification-dot"></span>
+                        </button>
                         <div className="user-profile">
                             <div className="user-info">
                                 <span className="user-name">{mockDashboardData.user.name}</span>
