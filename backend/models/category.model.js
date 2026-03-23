@@ -13,21 +13,22 @@ const Category = sequelize.define(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
 
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+    type: {
+      type: DataTypes.ENUM("income", "expense"),
+      allowNull: false,
+      defaultValue: "expense", // 🔥 ADD THIS
     },
 
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true, 
     },
   },
   {
     tableName: "categories",
+    timestamps: true,
   }
 );
 

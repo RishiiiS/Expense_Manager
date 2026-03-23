@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 const SpendingByCategory = ({ data }) => {
+    const totalSpending = useMemo(
+        () => data.reduce((sum, item) => sum + item.amount, 0),
+        [data],
+    );
+
+    const donutBackground = useMemo(() => {
+        if (!data.length || !totalSpending) {
+            return 'radial-gradient(circle, #161922 57%, transparent 58%), conic-gradient(from -90deg, #252c3b 0 100%)';
+        }
+
+        let currentStop = 0;
+        const stops = data.map((item) => {
+            const start = currentStop;
+            currentStop += (item.amount / totalSpending) * 100;
+            return `${item.color} ${start}% ${currentStop}%`;
+        });
+
+        return `radial-gradient(circle, #161922 57%, transparent 58%), conic-gradient(from -90deg, ${stops.join(', ')})`;
+    }, [data, totalSpending]);
+
     return (
         <div className="dashboard-card spending-card">
             <div className="card-header-flex">
@@ -9,10 +29,12 @@ const SpendingByCategory = ({ data }) => {
             </div>
 
             <div className="spending-content">
-                <div className="donut-chart-placeholder">
-                    {/* Placeholder for Donut Chart. A simple CSS rounded border will be used later */}
-                    <div className="donut-hole">
-                        <span className="donut-center-text">Total</span>
+                <div className="donut-wrap">
+                    <div className="donut" style={{ background: donutBackground }}>
+                        <div className="donut-inner">
+                            <span>TOTAL EXP</span>
+                            <strong>₹{totalSpending.toLocaleString('en-IN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</strong>
+                        </div>
                     </div>
                 </div>
 

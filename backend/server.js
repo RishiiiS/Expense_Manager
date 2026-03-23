@@ -1,11 +1,10 @@
 require("dotenv").config();
-const { sequelize } = require("./config/db");
 const express = require("express");
 const { connectDB } = require("./config/db");
-require("./models/user.model");
-require("./models/category.model");
-require("./models/expense.model");
-require("./models/budget.model");
+const { sequelize } = require("./models");
+
+
+
 const app = express();
 const authRoutes = require("./routes/auth.routes");
 const authMiddleware = require("./middlewares/auth.middleware");
@@ -14,6 +13,8 @@ const categoryRoutes = require("./routes/category.routes");
 const expenseRoutes = require("./routes/expense.routes");
 const budgetRoutes = require("./routes/budget.routes");
 const reportRoutes = require("./routes/report.routes");
+const analyticsRoutes = require("./routes/analytics.routes");
+
 app.use(express.json());
 
 // Handle JSON parsing errors gracefully
@@ -48,6 +49,8 @@ app.use("/api/v1/categories", categoryRoutes);
 app.use("/api/v1/expenses", expenseRoutes);
 app.use("/api/v1/budgets", budgetRoutes);
 app.use("/api/v1/reports", reportRoutes);
+app.use("/api/v1/analytics", analyticsRoutes);
+
 
 // Global Error Handler
 app.use((err, req, res, next) => {

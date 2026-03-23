@@ -19,9 +19,7 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: {
-        isEmail: true,
-      },
+      validate: { isEmail: true },
     },
 
     password: {
@@ -29,18 +27,22 @@ const User = sequelize.define(
       allowNull: false,
     },
 
-    createdAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+    monthly_income: {
+      type: DataTypes.DECIMAL(10, 2),
     },
 
-    updatedAt: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+    savings_target: {
+      type: DataTypes.DECIMAL(10, 2),
+    },
+
+    currency: {
+      type: DataTypes.STRING,
+      defaultValue: "INR",
     },
   },
   {
     tableName: "users",
+    timestamps: true,
   }
 );
 

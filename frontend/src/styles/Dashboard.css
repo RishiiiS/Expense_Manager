@@ -523,35 +523,38 @@
     justify-content: center;
 }
 
-.donut-chart-placeholder {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    /* Approximation of a colorful conic-gradient based on data */
-    background: conic-gradient(#ef4444 0% 45%,
-            #fbbf24 45% 70%,
-            #3b82f6 70% 85%,
-            #10b981 85% 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.donut-wrap {
+    margin: 10px auto 0;
+    width: 180px;
+    max-width: 100%;
     flex-shrink: 0;
 }
 
-.donut-hole {
-    width: 120px;
-    height: 120px;
-    background-color: var(--dash-card-bg);
-    /* Match inner to wrapper so it looks hollow */
+.donut {
+    aspect-ratio: 1;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background:
+        radial-gradient(circle, #161922 57%, transparent 58%),
+        conic-gradient(from -90deg, #f4f4f4 0 30%, #f6b02e 30% 58%, #ff4a4a 58% 100%);
+    display: grid;
+    place-items: center;
 }
 
-.donut-center-text {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+.donut-inner {
+    text-align: center;
+}
+
+.donut-inner span {
+    color: #71788a;
+    font-size: 10px;
+    letter-spacing: 0.11em;
+    font-weight: 700;
+}
+
+.donut-inner strong {
+    display: block;
+    margin-top: 6px;
+    font-size: 28px;
 }
 
 .spending-list {
