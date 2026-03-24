@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { apiCall } from '../utils/api';
 import '../styles/Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        localStorage.setItem('token', 'demo-session-token');
-        navigate('/dashboard');
+        setError('');
+        setIsLoading(true);
+
+        try {
+            const response = await apiCall('/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password })
+            });
+            localStorage.setItem('token', response.token);
+            navigate('/dashboard');
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -31,6 +49,7 @@ const Login = () => {
                     </div>
 
                     <form className="login-form" onSubmit={handleLogin}>
+                        {error && <div className="error-message" style={{ color: '#ef4444', marginBottom: '1rem', textAlign: 'center' }}>{error}</div>}
                         <div className="form-group">
                             <label htmlFor="email">Email Address</label>
                             <div className="input-wrapper">
@@ -40,7 +59,10 @@ const Login = () => {
                                 <input
                                     type="email"
                                     id="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     placeholder="student@university.edu"
+                                    required
                                 />
                             </div>
                         </div>
@@ -57,12 +79,17 @@ const Login = () => {
                                 <input
                                     type="password"
                                     id="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
+                                    required
                                 />
                             </div>
                         </div>
 
-                        <button type="submit" className="sign-in-btn-main">Sign In</button>
+                        <button type="submit" className="sign-in-btn-main" disabled={isLoading}>
+                            {isLoading ? 'Signing In...' : 'Sign In'}
+                        </button>
                     </form>
 
                     <div className="auth-divider">

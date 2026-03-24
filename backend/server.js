@@ -2,8 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const { connectDB } = require("./config/db");
 const { sequelize } = require("./models");
-
-
+const cors = require("cors");
 
 const app = express();
 const authRoutes = require("./routes/auth.routes");
@@ -16,6 +15,7 @@ const reportRoutes = require("./routes/report.routes");
 const analyticsRoutes = require("./routes/analytics.routes");
 
 app.use(express.json());
+app.use(cors({ origin: 'http://localhost:5173' })); // Allow Vite frontend
 
 // Handle JSON parsing errors gracefully
 app.use((err, req, res, next) => {

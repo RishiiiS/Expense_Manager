@@ -1,37 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AnalyticsPage.css';
 import Sidebar from '../dashboard/Sidebar';
 import { getCurrentMonthlyProfile } from '../../utils/monthlyProfile';
 
-const TRANSACTIONS = [
-  { id: 1, date: '2023-10-01', type: 'income', category: 'Salary', amount: 4500 },
-  { id: 2, date: '2023-10-02', type: 'expense', category: 'Housing & Utilities', amount: 930 },
-  { id: 3, date: '2023-10-03', type: 'expense', category: 'Food & Dining', amount: 280 },
-  { id: 4, date: '2023-10-04', type: 'expense', category: 'Transport', amount: 90 },
-  { id: 5, date: '2023-10-05', type: 'income', category: 'Freelance', amount: 820 },
-  { id: 6, date: '2023-10-05', type: 'expense', category: 'Healthcare', amount: 140 },
-  { id: 7, date: '2023-10-07', type: 'expense', category: 'Entertainment', amount: 160 },
-  { id: 8, date: '2023-10-08', type: 'expense', category: 'Food & Dining', amount: 240 },
-  { id: 9, date: '2023-10-09', type: 'income', category: 'Bonus', amount: 600 },
-  { id: 10, date: '2023-10-10', type: 'expense', category: 'Housing & Utilities', amount: 420 },
-  { id: 11, date: '2023-10-11', type: 'expense', category: 'Others', amount: 95 },
-  { id: 12, date: '2023-10-12', type: 'expense', category: 'Food & Dining', amount: 350 },
-  { id: 13, date: '2023-10-13', type: 'income', category: 'Freelance', amount: 670 },
-  { id: 14, date: '2023-10-14', type: 'expense', category: 'Transport', amount: 72 },
-  { id: 15, date: '2023-10-15', type: 'expense', category: 'Entertainment', amount: 410 },
-  { id: 16, date: '2023-10-16', type: 'income', category: 'Salary', amount: 4550 },
-  { id: 17, date: '2023-10-17', type: 'expense', category: 'Housing & Utilities', amount: 510 },
-  { id: 18, date: '2023-10-18', type: 'expense', category: 'Food & Dining', amount: 260 },
-  { id: 19, date: '2023-10-19', type: 'expense', category: 'Healthcare', amount: 130 },
-  { id: 20, date: '2023-10-20', type: 'income', category: 'Freelance', amount: 720 },
-  { id: 21, date: '2023-10-21', type: 'expense', category: 'Others', amount: 60 },
-  { id: 22, date: '2023-10-23', type: 'expense', category: 'Food & Dining', amount: 300 },
-  { id: 23, date: '2023-10-25', type: 'expense', category: 'Housing & Utilities', amount: 460 },
-  { id: 24, date: '2023-10-27', type: 'income', category: 'Bonus', amount: 560 },
-  { id: 25, date: '2023-10-29', type: 'expense', category: 'Entertainment', amount: 230 },
-  { id: 26, date: '2023-10-31', type: 'expense', category: 'Transport', amount: 110 },
-];
+import { apiCall } from '../../utils/api';
 
 const CATEGORY_COLORS = {
   'Housing & Utilities': '#ff4a4a',
@@ -47,9 +20,6 @@ const CATEGORY_COLORS = {
 
 const WEEK_DAYS = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const WEEKDAY_INDEX_TO_LABEL = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-const SORTED_DATES = [...new Set(TRANSACTIONS.map((item) => item.date))].sort();
-const DEFAULT_FROM_DATE = SORTED_DATES[0];
-const DEFAULT_TO_DATE = SORTED_DATES[SORTED_DATES.length - 1];
 const STARTING_BALANCE = 12450;
 const SAVINGS_TARGET = 20000;
 
@@ -96,8 +66,47 @@ const formatHeadlineDate = (dateValue) => {
 const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   const navigate = useNavigate();
   const activeMenu = initialMenu;
-  const [dateFrom, setDateFrom] = useState(DEFAULT_FROM_DATE);
-  const [dateTo, setDateTo] = useState(DEFAULT_TO_DATE);
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const data = await apiCall('/expenses');
+        const mapped = data.map((exp) => ({
+          id: exp.id,
+          date: exp.date,
+          type: (exp.Category?.type === 'income' || exp.type === 'income') ? 'income' : 'expense',
+          category: exp.Category ? exp.Category.name : 'Others',
+          amount: Math.abs(Number(exp.amount)),
+        }));
+        setTransactions(mapped);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTransactions();
+  }, []);
+
+  const SORTED_DATES = useMemo(() => {
+    return [...new Set(transactions.map((item) => item.date))].sort();
+  }, [transactions]);
+
+  const defaultFromDate = SORTED_DATES.length ? SORTED_DATES[0] : new Date().toISOString().split('T')[0];
+  const defaultToDate = SORTED_DATES.length ? SORTED_DATES[SORTED_DATES.length - 1] : new Date().toISOString().split('T')[0];
+
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+
+  useEffect(() => {
+    if (SORTED_DATES.length > 0 && !dateFrom) {
+      setDateFrom(defaultFromDate);
+      setDateTo(defaultToDate);
+    }
+  }, [SORTED_DATES]);
+
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const monthlyProfile = useMemo(() => getCurrentMonthlyProfile(), []);
@@ -108,13 +117,13 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   const registeredSavingsTarget = monthlyProfile?.savingTarget || SAVINGS_TARGET;
   const baselineAmount = registeredMonthlyIncome || STARTING_BALANCE;
   const categoryOptions = useMemo(
-    () => [...new Set(TRANSACTIONS.map((transaction) => transaction.category))],
-    [],
+    () => [...new Set(transactions.map((transaction) => transaction.category))],
+    [transactions],
   );
 
   const filteredTransactions = useMemo(
     () =>
-      TRANSACTIONS.filter((transaction) => {
+      transactions.filter((transaction) => {
         const inDateRange = transaction.date >= dateFrom && transaction.date <= dateTo;
         const inCategory =
           selectedCategory === 'all' || transaction.category === selectedCategory;
@@ -122,7 +131,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
 
         return inDateRange && inCategory && inType;
       }),
-    [dateFrom, dateTo, selectedCategory, selectedType],
+    [transactions, dateFrom, dateTo, selectedCategory, selectedType],
   );
 
   const incomeTotal = useMemo(
@@ -289,11 +298,13 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   };
 
   const handleResetFilters = () => {
-    setDateFrom(DEFAULT_FROM_DATE);
-    setDateTo(DEFAULT_TO_DATE);
+    setDateFrom(defaultFromDate);
+    setDateTo(defaultToDate);
     setSelectedCategory('all');
     setSelectedType('all');
   };
+
+  if (loading) return <div>Loading Analytics...</div>;
 
   return (
     <div className="analytics-page">
@@ -397,8 +408,8 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
                   type="date"
                   className="filter-date-input"
                   value={dateFrom}
-                  min={DEFAULT_FROM_DATE}
-                  max={DEFAULT_TO_DATE}
+                  min={defaultFromDate}
+                  max={defaultToDate}
                   onChange={handleFromDateChange}
                 />
                 <span className="filter-separator">to</span>
@@ -406,8 +417,8 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
                   type="date"
                   className="filter-date-input"
                   value={dateTo}
-                  min={DEFAULT_FROM_DATE}
-                  max={DEFAULT_TO_DATE}
+                  min={defaultFromDate}
+                  max={defaultToDate}
                   onChange={handleToDateChange}
                 />
               </label>

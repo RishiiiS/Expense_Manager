@@ -8,6 +8,7 @@ import AddExpensePage from './components/transactions/AddExpensePage';
 import './App.css';
 import AnalyticsPage from './components/analytics/AnalyticsPage';
 import { hasCurrentMonthProfile } from './utils/monthlyProfile';
+import Toast from './components/common/Toast';
 
 const ProtectedRoute = ({ children }) => {
   const isLoggedIn = Boolean(localStorage.getItem('token'));
@@ -26,6 +27,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="app-container">
+        <Toast />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

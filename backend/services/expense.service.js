@@ -1,4 +1,5 @@
 const Expense = require("../models/expense.model");
+const Category = require("../models/category.model");
 
 class ExpenseService {
     async createExpense({ amount, description, date, user_id, category_id }) {
@@ -14,6 +15,7 @@ class ExpenseService {
     async getUserExpenses(userId) {
     return await Expense.findAll({
       where: { user_id: userId },
+      include: [{ model: Category, attributes: ["name"] }],
       order: [["date", "DESC"]],
     });
   }

@@ -4,12 +4,8 @@ import TransactionSummary from './TransactionSummary';
 import TransactionFilters from './TransactionFilters';
 import TransactionsList from './TransactionsList';
 import AddExpensePanel from './AddExpensePanel';
-import { mockDashboardData, mockTransactionsData } from '../../data/mockData';
-import {
-    appendStoredTransaction,
-    createTransactionFromExpenseData,
-    hydrateTransactions
-} from '../../utils/transactionsStorage';
+import { apiCall } from '../../utils/api';
+import { mockDashboardData } from '../../data/mockData';
 import '../../styles/Transactions.css';
 
 const parseTransactionDate = (transaction) => {
@@ -25,11 +21,54 @@ const parseTransactionDate = (transaction) => {
 };
 
 const Transactions = () => {
-    const [transactions, setTransactions] = useState(() => hydrateTransactions(mockTransactionsData.transactions));
-    const [summary, setSummary] = useState(mockTransactionsData.summary);
+    const [transactions, setTransactions] = useState([]);
+    const [summary, setSummary] = useState({ totalExpenses: 0, expensesChange: '', totalIncome: 0, incomeChange: '' });
     const [dateFilter, setDateFilter] = useState('all_dates');
     const [categoryFilter, setCategoryFilter] = useState('all');
     const [typeFilter, setTypeFilter] = useState('all');
+    const [loading, setLoading] = useState(true);
+
+    const fetchTransactions = async () => {
+        try {
+            const data = await apiCall('/expenses');
+            
+            // Map the backend transactions to the UI format
+            const mappedTransactions = data.map(exp => {
+                const isIncome = exp.Category && exp.Category.type === 'income' || exp.type === 'income';
+                return {
+                    id: exp.id,
+                    title: exp.description || 'Transaction',
+                    subtitle: exp.account || 'Primary',
+                    category: exp.Category ? exp.Category.name : 'Other',
+                    date: exp.date,
+                    status: 'Completed',
+                    icon: (exp.Category?.name || "TR").substring(0, 2).toUpperCase(),
+                    amount: isIncome ? Number(exp.amount) : -Number(exp.amount) 
+                };
+            });
+            setTransactions(mappedTransactions);
+
+            // Fetch summary stats
+            const date = new Date();
+            const analyticsData = await apiCall(`/analytics?month=${date.getMonth()+1}&year=${date.getFullYear()}`);
+            setSummary({
+                totalExpenses: analyticsData.totalExpense || 0,
+                expensesChange: "This month",
+                totalIncome: analyticsData.totalIncome || 0,
+                incomeChange: "This month",
+            });
+
+        } catch (error) {
+            console.error("Failed to fetch transactions:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    React.useEffect(() => {
+        fetchTransactions();
+    }, []);
+
     const sortedTransactions = [...transactions].sort((a, b) => parseTransactionDate(b) - parseTransactionDate(a));
     const filteredTransactions = sortedTransactions.filter((transaction) => {
         const transactionDate = new Date(parseTransactionDate(transaction));
@@ -64,10 +103,17 @@ const Transactions = () => {
     });
     const visibleTransactions = filteredTransactions.slice(0, 8);
 
-    const handleAddExpense = (newExpenseData) => {
-        const newTx = createTransactionFromExpenseData(newExpenseData);
-        appendStoredTransaction(newTx);
-        setTransactions((prevTransactions) => [newTx, ...prevTransactions]);
+    const handleAddExpense = async (newExpenseData) => {
+        try {
+            await apiCall('/expenses', {
+                method: 'POST',
+                body: JSON.stringify(newExpenseData)
+            });
+            await fetchTransactions(); // Refresh list to get new DB ID and properly formatted item
+        } catch (error) {
+            console.error("Failed to add expense:", error);
+            alert(error.message);
+        }
     };
 
     const handleEditExpenses = () => {

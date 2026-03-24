@@ -1,19 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddExpensePanel from './AddExpensePanel';
-import {
-    appendStoredTransaction,
-    createTransactionFromExpenseData
-} from '../../utils/transactionsStorage';
+import { apiCall } from '../../utils/api';
 import '../../styles/Transactions.css';
 
 const AddExpensePage = () => {
     const navigate = useNavigate();
 
-    const handleAddExpense = (newExpenseData) => {
-        const newTransaction = createTransactionFromExpenseData(newExpenseData);
-        appendStoredTransaction(newTransaction);
-        navigate('/transactions');
+    const handleAddExpense = async (newExpenseData) => {
+        try {
+            await apiCall('/expenses', {
+                method: 'POST',
+                body: JSON.stringify(newExpenseData)
+            });
+            navigate('/transactions');
+        } catch (error) {
+            console.error("Add expense failed", error);
+            alert(error.message);
+        }
     };
 
     return (

@@ -1,40 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { apiCall } from '../../utils/api';
 
 const AddExpensePanel = ({ onAddExpense }) => {
     const [amount, setAmount] = useState('');
     const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('Food');
-    const [date, setDate] = useState('10/25/2023');
+    const [categoryId, setCategoryId] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // Use standard YYYY-MM-DD
     const [account, setAccount] = useState('Primary');
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const data = await apiCall('/categories');
+                setCategories(data);
+                if (data.length > 0) {
+                    setCategoryId(data[0].id);
+                }
+            } catch (err) {
+                console.error("Failed to fetch categories", err);
+            }
+        };
+        fetchCategories();
+    }, []);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!amount || !description) return;
+        if (!amount || !description || !categoryId) return;
 
         let parsedAmount = parseFloat(amount);
         if (isNaN(parsedAmount)) parsedAmount = 0;
 
-        // Make it an expense (negative) unless it is Income category
-        if (category !== 'Income' && parsedAmount > 0) {
-            parsedAmount = -parsedAmount;
+        setIsLoading(true);
+        try {
+            // Check if it's an income category
+            const selectedCat = categories.find(c => String(c.id) === String(categoryId));
+            if (selectedCat && selectedCat.type !== 'income' && parsedAmount > 0) {
+                parsedAmount = Math.abs(parsedAmount); // The backend model takes positive amount and maps type via category or ENUM. Actually expense model expects absolute or negative?
+                 // Wait, looking at the expense list, the UI displays expenses as negative, but backend amount is usually just numbers. Let's pass absolute.
+                 parsedAmount = Math.abs(parsedAmount);
+            }
+
+            const newExpenseDef = {
+                amount: parsedAmount,
+                description,
+                date,
+                category_id: parseInt(categoryId),
+                account 
+            };
+
+            if (onAddExpense) {
+                await onAddExpense(newExpenseDef);
+            }
+
+            setAmount('');
+            setDescription('');
+        } finally {
+            setIsLoading(false);
         }
-
-        const newExpense = {
-            description,
-            category,
-            date,
-            account,
-            amount: parsedAmount,
-            icon: category.charAt(0).toUpperCase()
-        };
-
-        if (onAddExpense) {
-            onAddExpense(newExpense);
-        }
-
-        // Reset fields
-        setAmount('');
-        setDescription('');
     };
 
     return (
@@ -76,19 +100,17 @@ const AddExpensePanel = ({ onAddExpense }) => {
                 <div className="form-row">
                     <div className="form-group half-width">
                         <label>CATEGORY</label>
-                        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                            <option value="Food">Food & Drink</option>
-                            <option value="Software">Software</option>
-                            <option value="Lifestyle">Lifestyle</option>
-                            <option value="Travel">Travel</option>
-                            <option value="Income">Income</option>
+                        <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)}>
+                            {categories.map(cat => (
+                                <option key={cat.id} value={cat.id}>{cat.name}</option>
+                            ))}
                         </select>
                     </div>
                     <div className="form-group half-width">
                         <label>DATE</label>
                         <div className="date-input-wrapper">
                             <input
-                                type="text"
+                                type="date"
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}
                             />
@@ -115,11 +137,11 @@ const AddExpensePanel = ({ onAddExpense }) => {
                     </div>
                 </div>
 
-                <button type="submit" className="save-expense-btn">
+                <button type="submit" className="save-expense-btn" disabled={isLoading}>
                     <span className="save-icon">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                     </span>
-                    Save Expense
+                    {isLoading ? 'Saving...' : 'Save Expense'}
                 </button>
             </form>
         </div>
