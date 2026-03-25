@@ -77,7 +77,7 @@
 }
 
 .transactions-left-col::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-alpha-10);
     border-radius: 3px;
 }
 
@@ -116,7 +116,7 @@
 }
 
 .filter-dropdown:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--bg-alpha-08);
 }
 
 .filter-icon {
@@ -139,7 +139,7 @@
 }
 
 .filter-select option {
-    color: #111;
+    color: var(--text-main);
 }
 
 .chevron {
@@ -175,7 +175,7 @@
 }
 
 .export-btn:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--bg-alpha-08);
     color: var(--text-main);
 }
 
@@ -233,7 +233,7 @@
     min-width: 56px;
     height: 36px;
     border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-alpha-05);
     border: 1px solid var(--dash-card-border);
     color: var(--text-main);
     display: flex;
@@ -248,7 +248,7 @@
 }
 
 .summary-edit-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-alpha-10);
 }
 
 
@@ -272,13 +272,13 @@
     font-size: 0.7rem;
     font-weight: 600;
     color: var(--text-muted);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--bg-alpha-05);
     letter-spacing: 0.5px;
 }
 
 .transactions-table td {
     padding: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--bg-alpha-03);
     vertical-align: middle;
 }
 
@@ -298,8 +298,8 @@ input[type="checkbox"] {
     -webkit-appearance: none;
     width: 16px;
     height: 16px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: var(--bg-alpha-05);
+    border: 1px solid var(--bg-alpha-20);
     border-radius: 4px;
     cursor: pointer;
     position: relative;
@@ -332,7 +332,7 @@ input[type="checkbox"]:checked::after {
 .tx-icon-wrapper {
     width: 36px;
     height: 36px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-alpha-05);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -427,7 +427,7 @@ input[type="checkbox"]:checked::after {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--bg-alpha-05);
 }
 
 .pagination-text {
@@ -446,7 +446,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .page-btn {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: var(--bg-alpha-03);
     border: 1px solid var(--dash-card-border);
     color: var(--text-muted);
     width: 32px;
@@ -460,7 +460,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .page-btn:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--bg-alpha-08);
     color: var(--text-main);
 }
 
@@ -480,7 +480,7 @@ input[type="checkbox"]:checked::after {
     justify-content: flex-start;
     align-items: center;
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--bg-alpha-05);
 }
 
 .panel-header h2 {
@@ -513,8 +513,8 @@ input[type="checkbox"]:checked::after {
 
 .form-group input[type="text"],
 .form-group select {
-    background-color: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-alpha-03);
+    border: 1px solid var(--bg-alpha-10);
     border-radius: 8px;
     padding: 0.75rem 1rem;
     color: var(--text-main);
@@ -529,7 +529,7 @@ input[type="checkbox"]:checked::after {
 
 .form-group select {
     /* Custom dropdown arrow for select */
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='var(--text-muted)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1em;
@@ -538,7 +538,7 @@ input[type="checkbox"]:checked::after {
 
 .form-group input:focus,
 .form-group select:focus {
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: var(--bg-alpha-30);
 }
 
 /* Large Amount Input */
@@ -546,7 +546,7 @@ input[type="checkbox"]:checked::after {
     display: flex;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--bg-alpha-05);
     border-radius: 8px;
     padding: 0 1.25rem;
 }
@@ -566,7 +566,7 @@ input[type="checkbox"]:checked::after {
 }
 
 .amount-input-wrapper input::placeholder {
-    color: rgba(255, 255, 255, 0.2);
+    color: var(--bg-alpha-20);
 }
 
 /* Two column layout for Date/Category */
@@ -596,27 +596,27 @@ input[type="checkbox"]:checked::after {
 }
 
 .upload-area {
-    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border: 1px dashed var(--bg-alpha-15);
     border-radius: 8px;
     padding: 2.5rem 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: rgba(255, 255, 255, 0.01);
+    background-color: var(--bg-alpha-03);
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .upload-area:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-    background-color: rgba(255, 255, 255, 0.03);
+    border-color: var(--bg-alpha-30);
+    background-color: var(--bg-alpha-03);
 }
 
 .upload-icon {
     color: var(--text-muted);
     margin-bottom: 0.75rem;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-alpha-05);
     width: 40px;
     height: 40px;
     border-radius: 50%;

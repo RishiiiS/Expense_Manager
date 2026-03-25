@@ -64,3 +64,38 @@ button {
   cursor: pointer;
   font-family: inherit;
 }
+
+/* GLOBAL THEME ALPHA VARS */
+:root {
+  --bg-alpha-03: rgba(255, 255, 255, 0.03);
+  --bg-alpha-05: rgba(255, 255, 255, 0.05);
+  --bg-alpha-08: rgba(255, 255, 255, 0.08);
+  --bg-alpha-10: rgba(255, 255, 255, 0.1);
+  --bg-alpha-15: rgba(255, 255, 255, 0.15);
+  --bg-alpha-20: rgba(255, 255, 255, 0.2);
+  --bg-alpha-30: rgba(255, 255, 255, 0.3);
+  --border-alpha-03: rgba(255, 255, 255, 0.03);
+  --border-alpha-05: rgba(255, 255, 255, 0.05);
+  --border-alpha-10: rgba(255, 255, 255, 0.1);
+  --border-alpha-15: rgba(255, 255, 255, 0.15);
+  --border-alpha-20: rgba(255, 255, 255, 0.2);
+  --balance-bg: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+  --donut-center: #161922;
+}
+
+:root[data-theme='light'] {
+  --bg-alpha-03: rgba(15, 23, 42, 0.03);
+  --bg-alpha-05: rgba(15, 23, 42, 0.05);
+  --bg-alpha-08: rgba(15, 23, 42, 0.08);
+  --bg-alpha-10: rgba(15, 23, 42, 0.1);
+  --bg-alpha-15: rgba(15, 23, 42, 0.15);
+  --bg-alpha-20: rgba(15, 23, 42, 0.2);
+  --bg-alpha-30: rgba(15, 23, 42, 0.3);
+  --border-alpha-03: rgba(15, 23, 42, 0.06);
+  --border-alpha-05: rgba(15, 23, 42, 0.1);
+  --border-alpha-10: rgba(15, 23, 42, 0.15);
+  --border-alpha-15: rgba(15, 23, 42, 0.2);
+  --border-alpha-20: rgba(15, 23, 42, 0.25);
+  --balance-bg: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+  --donut-center: #f8fafc;
+}

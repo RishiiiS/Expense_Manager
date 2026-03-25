@@ -31,6 +31,17 @@
   font-family: 'Manrope', sans-serif;
 }
 
+:root[data-theme='light'] .analytics-page {
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --panel-2: #f1f5f9;
+  --line: #e2e8f0;
+  --text: #0f172a;
+  --muted: #64748b;
+  --white: #0f172a;
+  background: radial-gradient(1200px 520px at 80% -15%, #e2e8f0 0%, transparent 55%), var(--bg);
+}
+
 .analytics-main {
   padding-top: 12px;
   padding-bottom: 14px;
@@ -56,13 +67,13 @@
   width: 320px;
   height: 44px;
   border-radius: 12px;
-  background: #12151f;
-  border: 1px solid #171c27;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
   display: flex;
   align-items: center;
   padding: 0 14px;
   gap: 10px;
-  color: #70778a;
+  color: var(--muted);
 }
 
 .search-wrap input {
@@ -126,7 +137,7 @@
   height: 36px;
   border-radius: 50%;
   background: #f0decb;
-  color: #111;
+  color: var(--text-main);
   display: grid;
   place-items: center;
   font-size: 0.8rem;
@@ -139,7 +150,7 @@
 
 .heading-row p {
   margin: 0;
-  color: #6f7788;
+  color: var(--muted);
   letter-spacing: 0.08em;
   font-size: 11px;
   font-weight: 700;
@@ -167,7 +178,7 @@
 }
 
 .kpi-card {
-  background: linear-gradient(180deg, #161922, #13151d);
+  background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 16px;
   min-height: 190px;
@@ -188,7 +199,7 @@
 
 .kpi-header p {
   margin: 0;
-  color: #8e95a3;
+  color: var(--muted);
   font-size: 11px;
   letter-spacing: 0.12em;
   font-weight: 700;
@@ -240,9 +251,9 @@
 .filter-btn {
   height: 52px;
   border-radius: 16px;
-  border: 1px solid #262d3c;
-  background: #171b26;
-  color: #d5d8df;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--text);
   padding: 0 16px;
   display: flex;
   align-items: center;
@@ -260,7 +271,7 @@
 .filter-select {
   border: 0;
   background: transparent;
-  color: #d5d8df;
+  color: var(--text);
   font-size: 14px;
   font-family: inherit;
   outline: none;
@@ -289,9 +300,9 @@
 .reset-btn {
   height: 52px;
   border-radius: 16px;
-  border: 1px solid #262d3c;
-  background: #171b26;
-  color: #aab2c3;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--muted);
   font-size: 12px;
   font-weight: 700;
   padding: 0 16px;
@@ -307,7 +318,7 @@
 .panel {
   border-radius: 16px;
   border: 1px solid var(--line);
-  background: linear-gradient(180deg, #161922, #141720);
+  background: var(--panel);
 }
 
 .cashflow-panel {
@@ -430,7 +441,7 @@
   aspect-ratio: 1;
   border-radius: 50%;
   background:
-    radial-gradient(circle, #161922 57%, transparent 58%),
+    radial-gradient(circle, var(--panel) 57%, transparent 58%),
     conic-gradient(from -90deg, #f4f4f4 0 30%, #f6b02e 30% 58%, #ff4a4a 58% 100%);
   display: grid;
   place-items: center;
@@ -529,7 +540,7 @@
   margin: 0;
   font-size: 10px;
   letter-spacing: 0.12em;
-  color: #6f7788;
+  color: var(--muted);
   font-weight: 800;
 }
 

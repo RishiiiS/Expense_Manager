@@ -4,7 +4,7 @@ const TotalBalanceCard = ({ balance, change, cardDetails, savingsTarget }) => {
     return (
         <div className="dashboard-card balance-card">
             <div className="balance-header">
-                <span className="balance-label">TOTAL BALANCE</span>
+                <span className="balance-label">CURRENT BALANCE</span>
                 <h2 className="balance-amount">₹{balance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h2>
                 <div className="balance-change-container">
                     <span className="balance-change positive">

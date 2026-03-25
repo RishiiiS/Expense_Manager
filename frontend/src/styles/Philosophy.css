@@ -5,7 +5,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 6rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--bg-alpha-05);
     /* Top border as seen in design */
     margin-top: 6rem;
     /* Increased top margin to separate it more from features */
@@ -67,7 +67,7 @@
 .title-outline {
     display: block;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.15);
+    -webkit-text-stroke: 1px var(--bg-alpha-15);
 }
 
 .philosophy-quote {
@@ -78,7 +78,7 @@
     line-height: 1.6;
     margin-bottom: 2.5rem;
     padding-left: 1.5rem;
-    border-left: 2px solid rgba(255, 255, 255, 0.1);
+    border-left: 2px solid var(--bg-alpha-10);
 }
 
 .philosophy-description {
@@ -108,7 +108,7 @@
 .link-line {
     width: 60px;
     height: 1px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--bg-alpha-20);
     transition: width 0.3s ease;
 }
 

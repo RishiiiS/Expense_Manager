@@ -7,17 +7,21 @@ import SpendingByCategory from './SpendingByCategory';
 import RecentActivity from './RecentActivity';
 import BudgetSummary from './BudgetSummary';
 import { mockDashboardData } from '../../data/mockData';
-import { getCurrentMonthlyProfile } from '../../utils/monthlyProfile';
+import { getCurrentMonthlyProfile, getStoredUser } from '../../utils/monthlyProfile';
 import { apiCall } from '../../utils/api';
 import '../../styles/Dashboard.css';
 
 const Dashboard = () => {
     const monthlyProfile = getCurrentMonthlyProfile();
+    const storedUser = getStoredUser();
     const monthlyTarget = monthlyProfile?.savingTarget ?? 0;
     const incomeSource = monthlyProfile?.incomeSource;
+    const userName = storedUser.name || 'User';
+    
     const user = {
-        ...mockDashboardData.user,
-        accountType: incomeSource ? `${incomeSource} Income` : mockDashboardData.user.accountType
+        name: userName,
+        accountType: incomeSource ? `${incomeSource} Income` : 'Primary Account',
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=1e293b&color=fff`
     };
 
     const [loading, setLoading] = useState(true);
@@ -38,9 +42,12 @@ const Dashboard = () => {
                 const year = date.getFullYear();
 
                 const analyticsData = await apiCall(`/analytics?month=${month}&year=${year}`);
+                const startingBalance = monthlyProfile?.totalMonthlyIncome || 0;
+                const actualIncome = startingBalance + (analyticsData.totalIncome || 0);
+                
                 setAnalytics({
-                    totalBalance: analyticsData.balance || 0,
-                    income: Math.max(analyticsData.totalIncome || 0, monthlyProfile?.totalMonthlyIncome || 0), // Default to set income
+                    totalBalance: actualIncome - (analyticsData.totalExpense || 0),
+                    income: actualIncome,
                     expenses: analyticsData.totalExpense || 0,
                 });
 
@@ -51,11 +58,46 @@ const Dashboard = () => {
                         id: exp.id,
                         title: exp.description || (exp.Category ? exp.Category.name : 'Expense'),
                         subtitle: new Date(exp.date).toLocaleDateString(),
-                        amount: -exp.amount,
+                        amount: -Math.abs(Number(exp.amount)),
                         type: "Expense",
                         icon: (exp.description || exp.Category?.name || "EX").substring(0, 2).toUpperCase()
                     }));
                     setRecentActivity(recent);
+
+                    // Calculate Cash Flow (Last 6 Months)
+                    const today = new Date();
+                    const cfMonths = [];
+                    const incomeData = [0, 0, 0, 0, 0, 0];
+                    const expenseData = [0, 0, 0, 0, 0, 0];
+
+                    for (let i = 5; i >= 0; i--) {
+                        const targetDate = new Date(today.getFullYear(), today.getMonth() - i, 1);
+                        cfMonths.push(targetDate.toLocaleString('default', { month: 'short' }));
+                    }
+
+                    expensesData.forEach(exp => {
+                        const expDate = new Date(exp.date);
+                        const monthDiff = (today.getFullYear() - expDate.getFullYear()) * 12 + today.getMonth() - expDate.getMonth();
+                        
+                        if (monthDiff >= 0 && monthDiff <= 5) {
+                            const index = 5 - monthDiff;
+                            const amt = Math.abs(Number(exp.amount));
+                            const isIncome = exp.type === 'income' || (exp.Category && exp.Category.type === 'income');
+                            
+                            if (isIncome) {
+                                incomeData[index] += amt;
+                            } else {
+                                expenseData[index] += amt;
+                            }
+                        }
+                    });
+
+                    // Add registered flat monthly income to current month if transactions income is lower
+                    if (incomeData[5] < monthlyProfile?.totalMonthlyIncome) {
+                        incomeData[5] = monthlyProfile.totalMonthlyIncome;
+                    }
+
+                    setCashFlow({ months: cfMonths, incomeData, expenseData });
 
                     const currentMonthExpenses = expensesData.filter(exp => {
                         const expDate = new Date(exp.date);

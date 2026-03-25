@@ -29,7 +29,7 @@
 .cta-title .title-outline {
     display: block;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+    -webkit-text-stroke: 1px var(--bg-alpha-20);
 }
 
 .cta-actions {

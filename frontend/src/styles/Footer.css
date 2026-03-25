@@ -2,7 +2,7 @@
     background-color: rgb(11, 11, 14);
     /* Darkest section */
     padding: 6rem 6rem 2rem 6rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--bg-alpha-05);
 }
 
 .footer-top {
@@ -38,7 +38,7 @@
 }
 
 .footer-col-title {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--bg-alpha-30);
     font-size: 0.65rem;
     font-weight: 800;
     letter-spacing: 2px;
@@ -68,14 +68,14 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--bg-alpha-05);
     max-width: 1600px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .footer-copyright {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--bg-alpha-30);
     font-size: 0.65rem;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -87,7 +87,7 @@
 }
 
 .footer-legal a {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--bg-alpha-30);
     font-size: 0.65rem;
     letter-spacing: 1px;
     text-transform: uppercase;

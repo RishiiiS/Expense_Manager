@@ -16,9 +16,9 @@ const TransactionSummary = ({ summary, onEditExpenses, onEditIncome }) => {
 
             <div className="summary-card income-card">
                 <div className="summary-info">
-                    <span className="summary-label">TOTAL INCOME</span>
-                    <h2 className="summary-amount">₹{summary.totalIncome.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h2>
-                    <span className="summary-change positive">{summary.incomeChange}</span>
+                    <span className="summary-label">CURRENT BALANCE</span>
+                    <h2 className="summary-amount">₹{(summary.remainingAmount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</h2>
+                    <span className="summary-change positive">{summary.remainingChange}</span>
                 </div>
                 <button className="summary-icon summary-edit-btn" onClick={onEditIncome}>
                     Edit

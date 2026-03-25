@@ -25,6 +25,10 @@ const getStoredPayload = () => {
     };
 };
 
+export const getStoredUser = () => {
+    return getStoredPayload().user || {};
+};
+
 export const getCurrentMonthKey = (date = new Date()) => {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     return `${date.getFullYear()}-${month}`;

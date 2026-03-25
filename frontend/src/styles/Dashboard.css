@@ -1,8 +1,8 @@
 /* src/styles/Dashboard.css */
 :root {
     --dash-bg: rgb(11, 11, 14);
-    --dash-card-bg: rgba(255, 255, 255, 0.03);
-    --dash-card-border: rgba(255, 255, 255, 0.05);
+    --dash-card-bg: var(--bg-alpha-03);
+    --dash-card-border: var(--bg-alpha-05);
     --dash-sidebar-w: 260px;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .nav-item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-alpha-05);
     color: var(--text-main);
 }
 
@@ -289,7 +289,7 @@
 
 /* ================== TOTAL BALANCE CARD ================== */
 .balance-card {
-    background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+    background: var(--balance-bg);
     border: 1px solid rgba(255, 60, 60, 0.2);
     display: flex;
     flex-direction: column;
@@ -300,7 +300,7 @@
 .balance-label {
     font-size: 0.75rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-muted);
     letter-spacing: 1px;
 }
 
@@ -321,7 +321,7 @@
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-alpha-10);
     color: #fbbf24;
     /* yellow */
     padding: 0.2rem 0.5rem;
@@ -335,7 +335,7 @@
 
 .balance-footer {
     margin-top: 1.5rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-main);
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -468,7 +468,7 @@
 }
 
 .chart-period-select {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-alpha-05);
     border: 1px solid var(--dash-card-border);
     color: var(--text-muted);
     padding: 0.4rem 0.8rem;
@@ -534,7 +534,7 @@
     aspect-ratio: 1;
     border-radius: 50%;
     background:
-        radial-gradient(circle, #161922 57%, transparent 58%),
+        radial-gradient(circle, var(--donut-center) 57%, transparent 58%),
         conic-gradient(from -90deg, #f4f4f4 0 30%, #f6b02e 30% 58%, #ff4a4a 58% 100%);
     display: grid;
     place-items: center;
@@ -590,7 +590,7 @@
 
 .progress-bar-bg {
     height: 4px;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-alpha-10);
     border-radius: 2px;
     margin-bottom: 0.4rem;
 }
@@ -622,7 +622,7 @@
 .activity-icon-wrapper {
     width: 40px;
     height: 40px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-alpha-05);
     border-radius: 8px;
     display: flex;
     align-items: center;

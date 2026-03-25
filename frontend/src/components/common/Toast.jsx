@@ -7,7 +7,7 @@ const Toast = () => {
     useEffect(() => {
         const handleApiError = (event) => {
             const message = event.detail || 'An unknown error occurred';
-            const id = Date.now();
+            const id = Date.now() + Math.random().toString();
             setToasts(prev => [...prev, { id, message }]);
 
             setTimeout(() => {
@@ -17,7 +17,7 @@ const Toast = () => {
 
         const handleApiSuccess = (event) => {
             const message = event.detail || 'Success!';
-            const id = Date.now();
+            const id = Date.now() + Math.random().toString();
             setToasts(prev => [...prev, { id, message, type: 'success' }]);
 
             setTimeout(() => {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { apiCall } from '../utils/api';
+import { upsertCurrentMonthlyProfile } from '../utils/monthlyProfile';
 import '../styles/Login.css';
 
 const Login = () => {
@@ -21,6 +22,12 @@ const Login = () => {
                 body: JSON.stringify({ email, password })
             });
             localStorage.setItem('token', response.token);
+            if (response.user) {
+                upsertCurrentMonthlyProfile({ 
+                    name: response.user.name, 
+                    email: response.user.email 
+                });
+            }
             navigate('/dashboard');
         } catch (err) {
             setError(err.message);

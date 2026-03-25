@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../dashboard/Sidebar';
 import TransactionSummary from './TransactionSummary';
 import TransactionFilters from './TransactionFilters';
 import TransactionsList from './TransactionsList';
 import AddExpensePanel from './AddExpensePanel';
 import { apiCall } from '../../utils/api';
-import { mockDashboardData } from '../../data/mockData';
+import { getStoredUser, getCurrentMonthlyProfile } from '../../utils/monthlyProfile';
 import '../../styles/Transactions.css';
 
 const parseTransactionDate = (transaction) => {
@@ -21,8 +21,14 @@ const parseTransactionDate = (transaction) => {
 };
 
 const Transactions = () => {
+    const storedUser = getStoredUser();
+    const monthlyProfile = getCurrentMonthlyProfile();
+    const userName = storedUser.name || 'User';
+    const accountType = monthlyProfile?.incomeSource ? `${monthlyProfile.incomeSource} Income` : 'Primary Account';
+    const userAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=1e293b&color=fff`;
+
     const [transactions, setTransactions] = useState([]);
-    const [summary, setSummary] = useState({ totalExpenses: 0, expensesChange: '', totalIncome: 0, incomeChange: '' });
+    const [summary, setSummary] = useState({ totalExpenses: 0, expensesChange: '', remainingAmount: 0, remainingChange: '' });
     const [dateFilter, setDateFilter] = useState('all_dates');
     const [categoryFilter, setCategoryFilter] = useState('all');
     const [typeFilter, setTypeFilter] = useState('all');
@@ -51,11 +57,14 @@ const Transactions = () => {
             // Fetch summary stats
             const date = new Date();
             const analyticsData = await apiCall(`/analytics?month=${date.getMonth()+1}&year=${date.getFullYear()}`);
+            const startingBalance = monthlyProfile?.totalMonthlyIncome || 0;
+            const actualIncome = startingBalance + (analyticsData.totalIncome || 0);
+            
             setSummary({
                 totalExpenses: analyticsData.totalExpense || 0,
                 expensesChange: "This month",
-                totalIncome: analyticsData.totalIncome || 0,
-                incomeChange: "This month",
+                remainingAmount: actualIncome - (analyticsData.totalExpense || 0),
+                remainingChange: "This month",
             });
 
         } catch (error) {
@@ -131,7 +140,7 @@ const Transactions = () => {
     };
 
     const handleEditIncome = () => {
-        const nextValue = window.prompt('Enter new total income amount', String(summary.totalIncome));
+        const nextValue = window.prompt('Enter new remaining amount', String(summary.remainingAmount));
         if (nextValue === null) return;
 
         const parsedValue = Number.parseFloat(nextValue);
@@ -139,8 +148,8 @@ const Transactions = () => {
 
         setSummary((prev) => ({
             ...prev,
-            totalIncome: parsedValue,
-            incomeChange: 'Manually updated'
+            remainingAmount: parsedValue,
+            remainingChange: 'Manually updated'
         }));
     };
 
@@ -166,10 +175,10 @@ const Transactions = () => {
                         </button>
                         <div className="user-profile">
                             <div className="user-info">
-                                <span className="user-name">{mockDashboardData.user.name}</span>
-                                <span className="user-type">{mockDashboardData.user.accountType}</span>
+                                <span className="user-name">{userName}</span>
+                                <span className="user-type">{accountType}</span>
                             </div>
-                            <img src={mockDashboardData.user.avatar} alt="User" className="user-avatar" />
+                            <img src={userAvatar} alt="User" className="user-avatar" />
                         </div>
                     </div>
                 </header>

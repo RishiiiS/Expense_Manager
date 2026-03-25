@@ -1,21 +1,21 @@
 .mission-card {
     background: linear-gradient(180deg, rgba(20, 20, 20, 0.4) 0%, rgba(10, 10, 10, 0.8) 100%);
     backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--bg-alpha-05);
+    border-top: 1px solid var(--bg-alpha-10);
     border-radius: 8px;
     padding: 3rem 2.5rem;
     display: flex;
     flex-direction: column;
     height: 100%;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 var(--bg-alpha-10);
 }
 
 .card-header {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-muted);
     font-size: 0.65rem;
     font-weight: 800;
     letter-spacing: 4px;
@@ -65,7 +65,7 @@
     align-items: center;
     gap: 1.5rem;
     padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    border-top: 1px solid var(--bg-alpha-03);
 }
 
 .color-dots {
@@ -75,7 +75,7 @@
     background: rgba(0, 0, 0, 0.4);
     padding: 0.5rem 0.75rem;
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--bg-alpha-05);
 }
 
 .dot-green,
@@ -96,7 +96,7 @@
 }
 
 .color-label {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--bg-alpha-30);
     font-size: 0.55rem;
     font-weight: 800;
     letter-spacing: 2px;

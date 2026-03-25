@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AnalyticsPage.css';
 import Sidebar from '../dashboard/Sidebar';
-import { getCurrentMonthlyProfile } from '../../utils/monthlyProfile';
+import { getCurrentMonthlyProfile, getStoredUser } from '../../utils/monthlyProfile';
 
 import { apiCall } from '../../utils/api';
 
@@ -110,6 +110,9 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const monthlyProfile = useMemo(() => getCurrentMonthlyProfile(), []);
+  const storedUser = useMemo(() => getStoredUser(), []);
+  const userName = storedUser.name || 'User';
+  const userInitials = userName.substring(0, 2).toUpperCase();
 
   const isAnalyticsView = activeMenu === 'analytics';
   const registeredMonthlyIncome = monthlyProfile?.totalMonthlyIncome || 0;
@@ -175,20 +178,22 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
     if (!total) {
       return [];
     }
+    
+    const fallbackColors = ['#ff4a4a', '#f6b02e', '#60a5fa', '#34d399', '#c084fc', '#f97316', '#10b981', '#ef4444', '#3b82f6'];
 
     return Object.entries(expenseByCategory)
       .sort(([, firstAmount], [, secondAmount]) => secondAmount - firstAmount)
-      .map(([name, amount]) => ({
+      .map(([name, amount], index) => ({
         name,
         amount,
         value: Math.round((amount / total) * 100),
-        color: CATEGORY_COLORS[name] || '#f4f4f4',
+        color: CATEGORY_COLORS[name] || fallbackColors[index % fallbackColors.length],
       }));
   }, [expenseByCategory]);
 
   const categoryDonutBackground = useMemo(() => {
     if (!categories.length) {
-      return 'radial-gradient(circle, #161922 57%, transparent 58%), conic-gradient(from -90deg, #252c3b 0 100%)';
+      return 'radial-gradient(circle, var(--panel, #161922) 57%, transparent 58%), conic-gradient(from -90deg, var(--border-alpha-10, #252c3b) 0 100%)';
     }
 
     const expenseSum = categories.reduce((sum, category) => sum + category.amount, 0);
@@ -199,7 +204,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
       return `${category.color} ${start}% ${currentStop}%`;
     });
 
-    return `radial-gradient(circle, #161922 57%, transparent 58%), conic-gradient(from -90deg, ${stops.join(', ')})`;
+    return `radial-gradient(circle, var(--panel, #161922) 57%, transparent 58%), conic-gradient(from -90deg, ${stops.join(', ')})`;
   }, [categories]);
 
   const weeklyData = useMemo(() => {
@@ -327,10 +332,10 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
               <span className="dot" />
             </button>
             <div className="user-info">
-              <p>Alexander Rossi</p>
+              <p>{userName}</p>
               <span>{registeredIncomeSource}</span>
             </div>
-            <div className="avatar">AR</div>
+            <div className="avatar">{userInitials}</div>
           </div>
         </header>
 

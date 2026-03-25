@@ -181,8 +181,8 @@
     position: relative;
     display: flex;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-alpha-03);
+    border: 1px solid var(--bg-alpha-10);
     border-radius: 8px;
     padding: 0 1.25rem;
     transition: border-color 0.2s ease, background-color 0.2s ease;
@@ -190,7 +190,7 @@
 
 .input-wrapper:focus-within {
     border-color: var(--accent-red);
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-alpha-05);
 }
 
 .input-icon {
@@ -215,7 +215,7 @@
 }
 
 .input-wrapper input::placeholder {
-    color: rgba(255, 255, 255, 0.2);
+    color: var(--bg-alpha-20);
     font-weight: 400;
 }
 
@@ -256,12 +256,12 @@
 .auth-divider::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--bg-alpha-05);
 }
 
 .auth-divider span {
     padding: 0 1rem;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--bg-alpha-30);
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 1px;
@@ -279,7 +279,7 @@
     justify-content: center;
     gap: 0.75rem;
     background-color: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--bg-alpha-05);
     border-radius: 8px;
     padding: 1rem;
     color: var(--text-main);
@@ -290,8 +290,8 @@
 }
 
 .social-btn:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-alpha-05);
+    border-color: var(--bg-alpha-10);
 }
 
 .social-icon {
@@ -332,7 +332,7 @@
 }
 
 .login-copyright {
-    color: rgba(255, 255, 255, 0.2);
+    color: var(--bg-alpha-20);
     font-size: 0.7rem;
 }
 

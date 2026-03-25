@@ -8,9 +8,9 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 2px;
     /* For the thin borders between them */
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--bg-alpha-05);
     /* Acts as the border color between cards */
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--bg-alpha-05);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -46,7 +46,7 @@
 .feature-number {
     font-size: 2rem;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.05);
+    color: var(--bg-alpha-05);
     /* Very faint large numbers */
     font-family: 'Inter', sans-serif;
 }

@@ -13,7 +13,7 @@ const BudgetSummary = () => {
             const date = new Date();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-            const data = await apiCall(`/budgets/summary?month=${month}&year=${year}`);
+            const data = await apiCall(`/budgets?month=${month}&year=${year}`);
             setBudgetData(data);
         } catch (error) {
             console.error(error);
@@ -33,7 +33,7 @@ const BudgetSummary = () => {
             await apiCall('/budgets', {
                 method: 'POST',
                 body: JSON.stringify({
-                    amount: Number(newLimit),
+                    monthly_limit: Number(newLimit),
                     month: date.getMonth() + 1,
                     year: date.getFullYear()
                 })
