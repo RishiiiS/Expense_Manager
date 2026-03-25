@@ -26,7 +26,9 @@ const Dashboard = () => {
 
     const [loading, setLoading] = useState(true);
     const [analytics, setAnalytics] = useState({
+        startingBalance: 0,
         totalBalance: 0,
+        totalSavings: 0,
         income: 0,
         expenses: 0,
     });
@@ -41,13 +43,22 @@ const Dashboard = () => {
                 const month = date.getMonth() + 1;
                 const year = date.getFullYear();
 
-                const analyticsData = await apiCall(`/analytics?month=${month}&year=${year}`);
-                const startingBalance = monthlyProfile?.totalMonthlyIncome || 0;
-                const actualIncome = startingBalance + (analyticsData.totalIncome || 0);
+                let analyticsData = await apiCall(`/analytics?month=${month}&year=${year}`);
+                
+                const localIncome = monthlyProfile?.totalMonthlyIncome;
+                if (!analyticsData.starting_balance && localIncome) {
+                    await apiCall('/analytics/balance', {
+                        method: 'POST',
+                        body: JSON.stringify({ month, year, starting_balance: localIncome })
+                    });
+                    analyticsData = await apiCall(`/analytics?month=${month}&year=${year}`);
+                }
                 
                 setAnalytics({
-                    totalBalance: actualIncome - (analyticsData.totalExpense || 0),
-                    income: actualIncome,
+                    startingBalance: analyticsData.starting_balance || 0,
+                    totalBalance: analyticsData.current_balance || 0,
+                    totalSavings: analyticsData.total_savings || 0,
+                    income: analyticsData.totalIncome || 0,
                     expenses: analyticsData.totalExpense || 0,
                 });
 
@@ -141,10 +152,11 @@ const Dashboard = () => {
             <div className="dashboard-grid">
                 <div className="dashboard-col-left">
                     <TotalBalanceCard
-                        balance={analytics.totalBalance || analytics.income - analytics.expenses}
+                        startingBalance={analytics.startingBalance}
+                        balance={analytics.totalBalance}
+                        totalSavings={analytics.totalSavings}
                         change={0}
                         cardDetails={mockDashboardData.cardDetails}
-                        savingsTarget={monthlyTarget}
                     />
                     <BudgetSummary />
                     <IncomeExpenseCards

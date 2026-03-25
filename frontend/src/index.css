@@ -79,8 +79,8 @@ button {
   --border-alpha-10: rgba(255, 255, 255, 0.1);
   --border-alpha-15: rgba(255, 255, 255, 0.15);
   --border-alpha-20: rgba(255, 255, 255, 0.2);
-  --balance-bg: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
-  --donut-center: #161922;
+  --balance-bg: #dc2626; /* Softer solid red */
+  --donut-center: transparent;
 }
 
 :root[data-theme='light'] {
@@ -96,6 +96,6 @@ button {
   --border-alpha-10: rgba(15, 23, 42, 0.15);
   --border-alpha-15: rgba(15, 23, 42, 0.2);
   --border-alpha-20: rgba(15, 23, 42, 0.25);
-  --balance-bg: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
-  --donut-center: #f8fafc;
+  --balance-bg: #ef4444;
+  --donut-center: transparent;
 }

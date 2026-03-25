@@ -67,13 +67,31 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   const navigate = useNavigate();
   const activeMenu = initialMenu;
   const [transactions, setTransactions] = useState([]);
+  const [globalStats, setGlobalStats] = useState({ startingBalance: 0, currentBalance: 0, totalSavings: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchTransactions = async () => {
+    const fetchTransactionsAndStats = async () => {
       try {
-        const data = await apiCall('/expenses');
-        const mapped = data.map((exp) => ({
+        const date = new Date();
+        const currentMonth = date.getMonth() + 1;
+        const currentYear = date.getFullYear();
+
+        let [expensesData, analyticsData] = await Promise.all([
+          apiCall('/expenses'),
+          apiCall(`/analytics?month=${currentMonth}&year=${currentYear}`)
+        ]);
+        
+        const localIncome = monthlyProfile?.totalMonthlyIncome;
+        if (!analyticsData.starting_balance && localIncome) {
+            await apiCall('/analytics/balance', {
+                method: 'POST',
+                body: JSON.stringify({ month: currentMonth, year: currentYear, starting_balance: localIncome })
+            });
+            analyticsData = await apiCall(`/analytics?month=${currentMonth}&year=${currentYear}`);
+        }
+        
+        const mapped = expensesData.map((exp) => ({
           id: exp.id,
           date: exp.date,
           type: (exp.Category?.type === 'income' || exp.type === 'income') ? 'income' : 'expense',
@@ -81,13 +99,18 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
           amount: Math.abs(Number(exp.amount)),
         }));
         setTransactions(mapped);
+        setGlobalStats({
+          startingBalance: analyticsData.starting_balance || 0,
+          currentBalance: analyticsData.current_balance || 0,
+          totalSavings: analyticsData.total_savings || 0
+        });
       } catch (err) {
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
-    fetchTransactions();
+    fetchTransactionsAndStats();
   }, []);
 
   const SORTED_DATES = useMemo(() => {
@@ -115,10 +138,9 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   const userInitials = userName.substring(0, 2).toUpperCase();
 
   const isAnalyticsView = activeMenu === 'analytics';
-  const registeredMonthlyIncome = monthlyProfile?.totalMonthlyIncome || 0;
-  const registeredIncomeSource = monthlyProfile?.incomeSource || 'Pro Account';
+  const registeredIncomeSource = monthlyProfile?.incomeSource || 'Primary Account';
   const registeredSavingsTarget = monthlyProfile?.savingTarget || SAVINGS_TARGET;
-  const baselineAmount = registeredMonthlyIncome || STARTING_BALANCE;
+  const baselineAmount = globalStats.startingBalance;
   const categoryOptions = useMemo(
     () => [...new Set(transactions.map((transaction) => transaction.category))],
     [transactions],
@@ -153,8 +175,8 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
     [filteredTransactions],
   );
 
-  const netSavings = incomeTotal - expenseTotal;
-  const currentBalance = baselineAmount + netSavings;
+  const currentBalance = globalStats.currentBalance;
+  const netSavings = globalStats.totalSavings;
   const savingsProgress = Math.max(0, Math.min((currentBalance / registeredSavingsTarget) * 100, 100));
   const balanceGrowth = baselineAmount ? ((currentBalance - baselineAmount) / baselineAmount) * 100 : 0;
 
@@ -344,7 +366,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
             <section className="kpi-grid">
               <article className="kpi-card">
                 <div className="kpi-header">
-                  <p>{registeredMonthlyIncome ? 'MONTHLY INCOME' : 'STARTING BALANCE'}</p>
+                  <p>STARTING BALANCE</p>
                   <svg className="analytics-svg-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
                     <rect x="3" y="3" width="7" height="7" stroke="currentColor" strokeWidth="2" />
                     <rect x="14" y="3" width="7" height="7" stroke="currentColor" strokeWidth="2" />

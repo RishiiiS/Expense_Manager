@@ -379,8 +379,13 @@
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px;
-  align-items: end;
+  align-items: stretch;
   min-height: 240px;
+}
+
+.day-col {
+  display: flex;
+  flex-direction: column;
 }
 
 .day-col p {
@@ -389,16 +394,19 @@
   font-size: 11px;
   color: #6f7788;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .bar-stack {
-  height: 100%;
+  flex: 1;
   display: flex;
-  flex-direction: column-reverse;
-  gap: 2px;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 4px;
 }
 
 .bar {
+  flex: 1;
   border-radius: 6px 6px 0 0;
 }
 

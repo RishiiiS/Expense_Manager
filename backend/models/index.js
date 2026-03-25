@@ -4,6 +4,7 @@ const User = require("./user.model");
 const Category = require("./category.model");
 const Expense = require("./expense.model");
 const Budget = require("./budget.model");
+const MonthlyBalance = require("./monthly_balance.model");
 
 // Define Associations here to avoid circular dependencies
 
@@ -23,10 +24,15 @@ Budget.belongsTo(User, { foreignKey: "user_id" });
 User.hasMany(Category, { foreignKey: "user_id", onDelete: "CASCADE" });
 Category.belongsTo(User, { foreignKey: "user_id" });
 
+// 5. User <-> MonthlyBalance
+User.hasMany(MonthlyBalance, { foreignKey: "user_id", onDelete: "CASCADE" });
+MonthlyBalance.belongsTo(User, { foreignKey: "user_id" });
+
 module.exports = {
   sequelize,
   User,
   Category,
   Expense,
   Budget,
+  MonthlyBalance,
 };

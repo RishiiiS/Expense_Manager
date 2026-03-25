@@ -49,8 +49,8 @@ const BudgetSummary = () => {
 
     if (loading) return <div className="budget-summary-card">Loading budget...</div>;
 
-    const limit = budgetData?.limit || 0;
-    const spent = budgetData?.totalSpent || 0;
+    const limit = budgetData?.budget_limit || 0;
+    const spent = budgetData?.total_spent || 0;
     const remaining = budgetData?.remaining || 0;
     const progress = Math.min((spent / (limit || 1)) * 100, 100);
     const overBudget = remaining < 0;

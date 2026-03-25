@@ -4,5 +4,6 @@ const analyticsController = require("../controllers/analytics.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
 
 router.get("/", authMiddleware, analyticsController.getAnalytics);
+router.post("/balance", authMiddleware, analyticsController.setStartingBalance);
 
 module.exports = router;

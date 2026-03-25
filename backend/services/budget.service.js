@@ -40,6 +40,7 @@ class BudgetService {
         const totalSpentResult = await Expense.sum("amount", {
             where: {
                 user_id,
+                type: "expense",
                 date: {
                     [Op.between]: [startDate, endDate],
                 },

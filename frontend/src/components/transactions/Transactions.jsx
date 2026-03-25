@@ -28,7 +28,14 @@ const Transactions = () => {
     const userAvatar = `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=1e293b&color=fff`;
 
     const [transactions, setTransactions] = useState([]);
-    const [summary, setSummary] = useState({ totalExpenses: 0, expensesChange: '', remainingAmount: 0, remainingChange: '' });
+    const [summary, setSummary] = useState({ 
+        startingBalance: 0,
+        totalSavings: 0,
+        totalExpenses: 0, 
+        expensesChange: '', 
+        remainingAmount: 0, 
+        remainingChange: '' 
+    });
     const [dateFilter, setDateFilter] = useState('all_dates');
     const [categoryFilter, setCategoryFilter] = useState('all');
     const [typeFilter, setTypeFilter] = useState('all');
@@ -56,14 +63,23 @@ const Transactions = () => {
 
             // Fetch summary stats
             const date = new Date();
-            const analyticsData = await apiCall(`/analytics?month=${date.getMonth()+1}&year=${date.getFullYear()}`);
-            const startingBalance = monthlyProfile?.totalMonthlyIncome || 0;
-            const actualIncome = startingBalance + (analyticsData.totalIncome || 0);
+            let analyticsData = await apiCall(`/analytics?month=${date.getMonth()+1}&year=${date.getFullYear()}`);
+            
+            const localIncome = monthlyProfile?.totalMonthlyIncome;
+            if (!analyticsData.starting_balance && localIncome) {
+                await apiCall('/analytics/balance', {
+                    method: 'POST',
+                    body: JSON.stringify({ month: date.getMonth()+1, year: date.getFullYear(), starting_balance: localIncome })
+                });
+                analyticsData = await apiCall(`/analytics?month=${date.getMonth()+1}&year=${date.getFullYear()}`);
+            }
             
             setSummary({
+                startingBalance: analyticsData.starting_balance || 0,
+                totalSavings: analyticsData.total_savings || 0,
                 totalExpenses: analyticsData.totalExpense || 0,
                 expensesChange: "This month",
-                remainingAmount: actualIncome - (analyticsData.totalExpense || 0),
+                remainingAmount: analyticsData.current_balance || 0,
                 remainingChange: "This month",
             });
 
@@ -125,32 +141,28 @@ const Transactions = () => {
         }
     };
 
-    const handleEditExpenses = () => {
-        const nextValue = window.prompt('Enter new total expenses amount', String(summary.totalExpenses));
-        if (nextValue === null) return;
+    const handleEditStartingBalance = async () => {
+        const nextValue = window.prompt('Enter new Starting Balance', String(summary.startingBalance));
+        if (nextValue === null || nextValue.trim() === '') return;
 
         const parsedValue = Number.parseFloat(nextValue);
         if (Number.isNaN(parsedValue)) return;
 
-        setSummary((prev) => ({
-            ...prev,
-            totalExpenses: parsedValue,
-            expensesChange: 'Manually updated'
-        }));
-    };
-
-    const handleEditIncome = () => {
-        const nextValue = window.prompt('Enter new remaining amount', String(summary.remainingAmount));
-        if (nextValue === null) return;
-
-        const parsedValue = Number.parseFloat(nextValue);
-        if (Number.isNaN(parsedValue)) return;
-
-        setSummary((prev) => ({
-            ...prev,
-            remainingAmount: parsedValue,
-            remainingChange: 'Manually updated'
-        }));
+        try {
+            const date = new Date();
+            await apiCall('/analytics/balance', {
+                method: 'POST',
+                body: JSON.stringify({
+                    month: date.getMonth() + 1,
+                    year: date.getFullYear(),
+                    starting_balance: parsedValue
+                })
+            });
+            await fetchTransactions(); // Refresh summary metrics server-side
+        } catch (error) {
+            console.error("Failed to set starting balance", error);
+            alert("Error setting balance: " + error.message);
+        }
     };
 
     return (
@@ -196,8 +208,7 @@ const Transactions = () => {
                         {/* We could potentially dynamically update the summary here too, but passing mock for now */}
                         <TransactionSummary
                             summary={summary}
-                            onEditExpenses={handleEditExpenses}
-                            onEditIncome={handleEditIncome}
+                            onEditStartingBalance={handleEditStartingBalance}
                         />
                         <TransactionsList
                             transactions={visibleTransactions}
