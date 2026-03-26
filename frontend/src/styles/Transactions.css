@@ -662,3 +662,113 @@ input[type="checkbox"]:checked::after {
 .save-icon {
     display: flex;
 }
+
+/* ================== RESPONSIVENESS ================== */
+
+/* Hide floating plus on large screens, show on tablet/mobile */
+.floating-plus {
+    display: none;
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 0;
+    background: #f6b02e;
+    color: #141820;
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 500;
+    z-index: 30;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Tablet (max 1024px) */
+@media (max-width: 1024px) {
+    .transactions-content-area {
+        flex-direction: column;
+        padding: 1.5rem;
+        height: auto;
+        min-height: calc(100vh - 85px);
+    }
+    .transactions-left-col {
+        padding-right: 0;
+        overflow-y: visible;
+    }
+    .transactions-right-col {
+        display: none; /* Hide add expense panel on smaller screens */
+    }
+    .floating-plus {
+        display: flex;
+    }
+}
+
+/* Mobile (max 768px) */
+@media (max-width: 768px) {
+    .transactions-content-area {
+        padding: 1rem;
+    }
+    .transactions-topbar {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .topbar-left {
+        width: 100%;
+        display: flex;
+        align-items: center;
+    }
+    .search-container.small-search {
+        flex: 1;
+        max-width: 100%;
+    }
+    .topbar-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    .transaction-filters-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .filters-group {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .filter-dropdown {
+        flex: 1;
+        min-width: 120px;
+        justify-content: center;
+    }
+    .filters-actions {
+        width: 100%;
+    }
+    .filters-actions .action-btn {
+        flex: 1;
+    }
+    
+    .transaction-summary-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .summary-card {
+        width: 100%;
+    }
+    
+    .transactions-list-container {
+        overflow-x: auto;
+    }
+    .transactions-table {
+        min-width: 600px;
+    }
+    
+    .floating-plus {
+        right: 16px;
+        bottom: 16px;
+    }
+}

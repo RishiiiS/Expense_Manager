@@ -4,6 +4,7 @@ import TransactionSummary from './TransactionSummary';
 import TransactionFilters from './TransactionFilters';
 import TransactionsList from './TransactionsList';
 import AddExpensePanel from './AddExpensePanel';
+import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../../utils/api';
 import { getStoredUser, getCurrentMonthlyProfile } from '../../utils/monthlyProfile';
 import '../../styles/Transactions.css';
@@ -40,6 +41,8 @@ const Transactions = () => {
     const [categoryFilter, setCategoryFilter] = useState('all');
     const [typeFilter, setTypeFilter] = useState('all');
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const fetchTransactions = async () => {
         try {
@@ -166,16 +169,22 @@ const Transactions = () => {
     };
 
     return (
-        <div className="dashboard-layout"> {/* Reuse layout wrapper class */}
-            <Sidebar />
+        <div className="dashboard-layout transactions-page-layout"> {/* Reuse layout wrapper class */}
+            <Sidebar isOpen={isSidebarOpen} close={() => setIsSidebarOpen(false)} />
+            {isSidebarOpen && <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)} />}
             <div className="dashboard-main-content">
                 {/* Custom Topbar for Transactions */}
                 <header className="dashboard-topbar transactions-topbar">
-                    <div className="search-container small-search">
-                        <span className="search-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        </span>
-                        <input type="text" placeholder="Search..." className="search-input" />
+                    <div className="topbar-left">
+                        <button className="mobile-menu-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)} aria-label="Toggle Sidebar">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                        </button>
+                        <div className="search-container small-search">
+                            <span className="search-icon">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            </span>
+                            <input type="text" placeholder="Search..." className="search-input" />
+                        </div>
                     </div>
                     <div className="topbar-actions">
                         <button className="notification-btn" aria-label="Notifications">
@@ -222,6 +231,14 @@ const Transactions = () => {
                         <AddExpensePanel onAddExpense={handleAddExpense} />
                     </div>
                 </main>
+                <button
+                    type="button"
+                    className="floating-plus"
+                    aria-label="Add new expense"
+                    onClick={() => navigate('/add-expense')}
+                >
+                    +
+                </button>
             </div>
         </div>
     );
