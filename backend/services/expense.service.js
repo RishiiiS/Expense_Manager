@@ -2,13 +2,14 @@ const Expense = require("../models/expense.model");
 const Category = require("../models/category.model");
 
 class ExpenseService {
-    async createExpense({ amount, description, date, user_id, category_id }) {
+    async createExpense({ amount, description, date, user_id, category_id, type }) {
         const expense = await Expense.create({
             amount,
             description,
             date,
             user_id,
             category_id,
+            type,
         });
         return expense;
     }

@@ -3,11 +3,11 @@ const expenseService = require("../services/expense.service");
 class ExpenseController {
     async createExpense(req, res) {
         try {
-            const { amount, description, date, category_id } = req.body;
+            const { amount, description, date, category_id, type } = req.body;
             const user_id = req.user.id;
 
-            if (!amount || !date || !category_id) {
-                return res.status(400).json({ error: "Amount, date, and category_id are required" });
+            if (!amount || !date || !category_id || !type) {
+                return res.status(400).json({ error: "Amount, date, category_id, and type are required" });
             }
 
             const expense = await expenseService.createExpense({
@@ -16,6 +16,7 @@ class ExpenseController {
                 date,
                 user_id,
                 category_id,
+                type,
             });
 
             res.status(201).json({

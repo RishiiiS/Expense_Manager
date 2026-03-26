@@ -8,6 +8,7 @@ const AddExpensePanel = ({ onAddExpense }) => {
     const [categories, setCategories] = useState([]);
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]); // Use standard YYYY-MM-DD
     const [account, setAccount] = useState('Primary');
+    const [type, setType] = useState('debit');
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -34,20 +35,15 @@ const AddExpensePanel = ({ onAddExpense }) => {
 
         setIsLoading(true);
         try {
-            // Check if it's an income category
-            const selectedCat = categories.find(c => String(c.id) === String(categoryId));
-            if (selectedCat && selectedCat.type !== 'income' && parsedAmount > 0) {
-                parsedAmount = Math.abs(parsedAmount); // The backend model takes positive amount and maps type via category or ENUM. Actually expense model expects absolute or negative?
-                 // Wait, looking at the expense list, the UI displays expenses as negative, but backend amount is usually just numbers. Let's pass absolute.
-                 parsedAmount = Math.abs(parsedAmount);
-            }
+            parsedAmount = Math.abs(parsedAmount);
 
             const newExpenseDef = {
                 amount: parsedAmount,
                 description,
                 date,
                 category_id: parseInt(categoryId),
-                account 
+                account,
+                type
             };
 
             if (onAddExpense) {
@@ -68,6 +64,20 @@ const AddExpensePanel = ({ onAddExpense }) => {
             </div>
 
             <form className="add-expense-form" onSubmit={handleSubmit}>
+                <div className="form-group type-group">
+                    <label>TRANSACTION TYPE</label>
+                    <div className="type-toggle-container" style={{ display: 'flex', gap: '10px' }}>
+                        <label className="type-radio-label" style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', color: type === 'credit' ? '#10b981' : 'var(--text-muted)' }}>
+                            <input type="radio" name="transactionType" value="credit" checked={type === 'credit'} onChange={(e) => setType(e.target.value)} />
+                            Credit
+                        </label>
+                        <label className="type-radio-label" style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer', color: type === 'debit' ? '#ef4444' : 'var(--text-muted)' }}>
+                            <input type="radio" name="transactionType" value="debit" checked={type === 'debit'} onChange={(e) => setType(e.target.value)} />
+                            Debit
+                        </label>
+                    </div>
+                </div>
+
                 <div className="form-group">
                     <label>AMOUNT</label>
                     <div className="amount-input-wrapper">

@@ -69,8 +69,8 @@ const Dashboard = () => {
                         id: exp.id,
                         title: exp.description || (exp.Category ? exp.Category.name : 'Expense'),
                         subtitle: new Date(exp.date).toLocaleDateString(),
-                        amount: -Math.abs(Number(exp.amount)),
-                        type: "Expense",
+                        amount: exp.type === 'credit' ? Math.abs(Number(exp.amount)) : -Math.abs(Number(exp.amount)),
+                        type: exp.type === 'credit' ? "Income" : "Expense",
                         icon: (exp.description || exp.Category?.name || "EX").substring(0, 2).toUpperCase()
                     }));
                     setRecentActivity(recent);
@@ -93,7 +93,7 @@ const Dashboard = () => {
                         if (monthDiff >= 0 && monthDiff <= 5) {
                             const index = 5 - monthDiff;
                             const amt = Math.abs(Number(exp.amount));
-                            const isIncome = exp.type === 'income' || (exp.Category && exp.Category.type === 'income');
+                            const isIncome = exp.type === 'credit';
                             
                             if (isIncome) {
                                 incomeData[index] += amt;
@@ -118,6 +118,7 @@ const Dashboard = () => {
                     const categoryMap = {};
                     let totalSpent = 0;
                     currentMonthExpenses.forEach(exp => {
+                        if (exp.type !== 'debit') return;
                         const catName = exp.Category ? exp.Category.name : 'Other';
                         categoryMap[catName] = (categoryMap[catName] || 0) + Number(exp.amount);
                         totalSpent += Number(exp.amount);

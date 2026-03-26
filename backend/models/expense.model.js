@@ -25,9 +25,9 @@ const Expense = sequelize.define(
     },
 
     type: {
-      type: DataTypes.ENUM("income", "expense"),
+      type: DataTypes.ENUM("credit", "debit"),
       allowNull: false,
-      defaultValue: "expense",
+      defaultValue: "debit",
     },
 
     user_id: {

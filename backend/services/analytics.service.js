@@ -24,7 +24,7 @@ class AnalyticsService {
     const totalIncome = await Transaction.sum("amount", {
       where: {
         user_id: userId,
-        type: "income",
+        type: "credit",
         date: {
           [Op.between]: [startDate, endDate],
         },
@@ -35,7 +35,7 @@ class AnalyticsService {
     const totalExpense = await Transaction.sum("amount", {
       where: {
         user_id: userId,
-        type: "expense",
+        type: "debit",
         date: {
           [Op.between]: [startDate, endDate],
         },
@@ -50,7 +50,7 @@ class AnalyticsService {
       ],
       where: {
         user_id: userId,
-        type: "expense",
+        type: "debit",
         date: {
           [Op.between]: [startDate, endDate],
         },

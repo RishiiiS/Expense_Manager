@@ -94,7 +94,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
         const mapped = expensesData.map((exp) => ({
           id: exp.id,
           date: exp.date,
-          type: (exp.Category?.type === 'income' || exp.type === 'income') ? 'income' : 'expense',
+          type: exp.type === 'credit' ? 'credit' : 'debit',
           category: exp.Category ? exp.Category.name : 'Others',
           amount: Math.abs(Number(exp.amount)),
         }));
@@ -162,7 +162,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   const incomeTotal = useMemo(
     () =>
       filteredTransactions
-        .filter((transaction) => transaction.type === 'income')
+        .filter((transaction) => transaction.type === 'credit')
         .reduce((sum, transaction) => sum + transaction.amount, 0),
     [filteredTransactions],
   );
@@ -170,7 +170,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   const expenseTotal = useMemo(
     () =>
       filteredTransactions
-        .filter((transaction) => transaction.type === 'expense')
+        .filter((transaction) => transaction.type === 'debit')
         .reduce((sum, transaction) => sum + transaction.amount, 0),
     [filteredTransactions],
   );
@@ -184,7 +184,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
     const totals = {};
 
     filteredTransactions.forEach((transaction) => {
-      if (transaction.type !== 'expense') {
+      if (transaction.type !== 'debit') {
         return;
       }
 
@@ -242,7 +242,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
       const weekday = new Date(`${transaction.date}T00:00:00`).getDay();
       const dayLabel = WEEKDAY_INDEX_TO_LABEL[weekday];
 
-      if (transaction.type === 'income') {
+      if (transaction.type === 'credit') {
         totals[dayLabel].income += transaction.amount;
       } else {
         totals[dayLabel].expenses += transaction.amount;
@@ -273,7 +273,7 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
   }, [filteredTransactions]);
 
   const expenseTransactions = useMemo(
-    () => filteredTransactions.filter((transaction) => transaction.type === 'expense'),
+    () => filteredTransactions.filter((transaction) => transaction.type === 'debit'),
     [filteredTransactions],
   );
 
@@ -474,8 +474,8 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
                   onChange={(event) => setSelectedType(event.target.value)}
                 >
                   <option value="all">Transaction Type</option>
-                  <option value="income">Income</option>
-                  <option value="expense">Expense</option>
+                  <option value="credit">Credit / Income</option>
+                  <option value="debit">Debit / Expense</option>
                 </select>
               </label>
 

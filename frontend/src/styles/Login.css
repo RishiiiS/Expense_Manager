@@ -219,6 +219,24 @@
     font-weight: 400;
 }
 
+.password-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.5rem;
+    margin-left: auto;
+    transition: color 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+    color: var(--text-main);
+}
+
+
 .sign-in-btn-main {
     background-color: var(--accent-red);
     color: var(--text-main);

@@ -47,7 +47,7 @@ const Transactions = () => {
             
             // Map the backend transactions to the UI format
             const mappedTransactions = data.map(exp => {
-                const isIncome = exp.Category && exp.Category.type === 'income' || exp.type === 'income';
+                const isCredit = exp.type === 'credit';
                 return {
                     id: exp.id,
                     title: exp.description || 'Transaction',
@@ -56,7 +56,7 @@ const Transactions = () => {
                     date: exp.date,
                     status: 'Completed',
                     icon: (exp.Category?.name || "TR").substring(0, 2).toUpperCase(),
-                    amount: isIncome ? Number(exp.amount) : -Number(exp.amount) 
+                    amount: isCredit ? Number(exp.amount) : -Math.abs(Number(exp.amount)) 
                 };
             });
             setTransactions(mappedTransactions);

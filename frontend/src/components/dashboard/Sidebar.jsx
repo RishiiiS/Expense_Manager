@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, close }) => {
     const navigate = useNavigate();
     const [theme, setTheme] = useState('dark');
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -26,7 +26,7 @@ const Sidebar = () => {
     };
 
     return (
-        <aside className="dashboard-sidebar">
+        <aside className={`dashboard-sidebar ${isOpen ? 'mobile-open' : ''}`}>
             <a href="/#about" className="sidebar-logo">
                 <span className="logo-icon">₹</span> MoneyTree
             </a>
