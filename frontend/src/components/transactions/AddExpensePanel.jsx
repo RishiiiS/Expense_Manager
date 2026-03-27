@@ -14,7 +14,7 @@ const AddExpensePanel = ({ onAddExpense }) => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const data = await apiCall('/categories');
+                const data = await apiCall('/categories', {}, { silent: true });
                 setCategories(data);
                 if (data.length > 0) {
                     setCategoryId(data[0].id);

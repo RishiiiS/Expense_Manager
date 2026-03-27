@@ -13,7 +13,7 @@ const BudgetSummary = () => {
             const date = new Date();
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
-            const data = await apiCall(`/budgets?month=${month}&year=${year}`);
+            const data = await apiCall(`/budgets?month=${month}&year=${year}`, {}, { silent: true });
             setBudgetData(data);
         } catch (error) {
             console.error(error);

@@ -46,7 +46,7 @@ const Transactions = () => {
 
     const fetchTransactions = async () => {
         try {
-            const data = await apiCall('/expenses');
+            const data = await apiCall('/expenses', {}, { silent: true });
             
             // Map the backend transactions to the UI format
             const mappedTransactions = data.map(exp => {
@@ -66,15 +66,15 @@ const Transactions = () => {
 
             // Fetch summary stats
             const date = new Date();
-            let analyticsData = await apiCall(`/analytics?month=${date.getMonth()+1}&year=${date.getFullYear()}`);
+            let analyticsData = await apiCall(`/analytics?month=${date.getMonth()+1}&year=${date.getFullYear()}`, {}, { silent: true });
             
             const localIncome = monthlyProfile?.totalMonthlyIncome;
             if (!analyticsData.starting_balance && localIncome) {
                 await apiCall('/analytics/balance', {
                     method: 'POST',
                     body: JSON.stringify({ month: date.getMonth()+1, year: date.getFullYear(), starting_balance: localIncome })
-                });
-                analyticsData = await apiCall(`/analytics?month=${date.getMonth()+1}&year=${date.getFullYear()}`);
+                }, { silent: true });
+                analyticsData = await apiCall(`/analytics?month=${date.getMonth()+1}&year=${date.getFullYear()}`, {}, { silent: true });
             }
             
             setSummary({

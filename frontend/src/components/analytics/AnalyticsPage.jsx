@@ -78,8 +78,8 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
         const currentYear = date.getFullYear();
 
         let [expensesData, analyticsData] = await Promise.all([
-          apiCall('/expenses'),
-          apiCall(`/analytics?month=${currentMonth}&year=${currentYear}`)
+          apiCall('/expenses', {}, { silent: true }),
+          apiCall(`/analytics?month=${currentMonth}&year=${currentYear}`, {}, { silent: true })
         ]);
         
         const localIncome = monthlyProfile?.totalMonthlyIncome;
@@ -87,8 +87,8 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
             await apiCall('/analytics/balance', {
                 method: 'POST',
                 body: JSON.stringify({ month: currentMonth, year: currentYear, starting_balance: localIncome })
-            });
-            analyticsData = await apiCall(`/analytics?month=${currentMonth}&year=${currentYear}`);
+            }, { silent: true });
+            analyticsData = await apiCall(`/analytics?month=${currentMonth}&year=${currentYear}`, {}, { silent: true });
         }
         
         const mapped = expensesData.map((exp) => ({

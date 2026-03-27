@@ -43,15 +43,15 @@ const Dashboard = () => {
                 const month = date.getMonth() + 1;
                 const year = date.getFullYear();
 
-                let analyticsData = await apiCall(`/analytics?month=${month}&year=${year}`);
+                let analyticsData = await apiCall(`/analytics?month=${month}&year=${year}`, {}, { silent: true });
                 
                 const localIncome = monthlyProfile?.totalMonthlyIncome;
                 if (!analyticsData.starting_balance && localIncome) {
                     await apiCall('/analytics/balance', {
                         method: 'POST',
                         body: JSON.stringify({ month, year, starting_balance: localIncome })
-                    });
-                    analyticsData = await apiCall(`/analytics?month=${month}&year=${year}`);
+                    }, { silent: true });
+                    analyticsData = await apiCall(`/analytics?month=${month}&year=${year}`, {}, { silent: true });
                 }
                 
                 setAnalytics({
@@ -62,7 +62,7 @@ const Dashboard = () => {
                     expenses: analyticsData.totalExpense || 0,
                 });
 
-                const expensesData = await apiCall('/expenses');
+                const expensesData = await apiCall('/expenses', {}, { silent: true });
                 
                 if (expensesData && expensesData.length > 0) {
                     const recent = expensesData.slice(0, 3).map(exp => ({

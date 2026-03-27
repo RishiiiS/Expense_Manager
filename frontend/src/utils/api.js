@@ -1,7 +1,7 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1';
 const TIMEOUT_MS = 30000; // 30 seconds
 
-export const apiCall = async (endpoint, options = {}) => {
+export const apiCall = async (endpoint, options = {}, { silent = false } = {}) => {
   const token = localStorage.getItem('token');
 
   const headers = {
@@ -24,7 +24,7 @@ export const apiCall = async (endpoint, options = {}) => {
 
     if (!response.ok) {
       const errMessage = data.message || data.error || 'Something went wrong';
-      window.dispatchEvent(new CustomEvent('api_error', { detail: errMessage }));
+      if (!silent) window.dispatchEvent(new CustomEvent('api_error', { detail: errMessage }));
       throw new Error(errMessage);
     }
 
@@ -32,7 +32,7 @@ export const apiCall = async (endpoint, options = {}) => {
   } catch (error) {
     if (error.name === 'AbortError') {
       const msg = 'Request timed out. The server may be waking up — please try again in a moment.';
-      window.dispatchEvent(new CustomEvent('api_error', { detail: msg }));
+      if (!silent) window.dispatchEvent(new CustomEvent('api_error', { detail: msg }));
       throw new Error(msg);
     }
     console.error(`API Error on ${endpoint}:`, error.message);
