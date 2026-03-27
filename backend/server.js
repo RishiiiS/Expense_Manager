@@ -15,7 +15,9 @@ const reportRoutes = require("./routes/report.routes");
 const analyticsRoutes = require("./routes/analytics.routes");
 
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:5173' })); // Allow Vite frontend
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGIN || 'http://localhost:5173'
+})); // Allow Vite frontend
 
 // Handle JSON parsing errors gracefully
 app.use((err, req, res, next) => {
@@ -26,7 +28,7 @@ app.use((err, req, res, next) => {
   next();
 });
 connectDB();
-sequelize.sync({ alter: true })
+sequelize.sync({ force: false })
   .then(async () => {
     console.log("Tables synced");
     await categoryService.seedDefaultCategories();
