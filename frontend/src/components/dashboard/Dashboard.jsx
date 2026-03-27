@@ -144,7 +144,7 @@ const Dashboard = () => {
         };
 
         fetchDashboardData();
-    }, [monthlyProfile]);
+    }, [monthlyProfile?.totalMonthlyIncome, monthlyProfile?.savingTarget, monthlyProfile?.incomeSource]);
 
     if (loading) return <div>Loading dashboard...</div>;
 
