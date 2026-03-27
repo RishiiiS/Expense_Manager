@@ -331,7 +331,6 @@ const AnalyticsPage = ({ initialMenu = 'analytics' }) => {
     setSelectedType('all');
   };
 
-  if (loading) return <div>Loading Analytics...</div>;
 
   return (
     <div className="analytics-page">

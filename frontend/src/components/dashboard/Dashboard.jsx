@@ -146,7 +146,6 @@ const Dashboard = () => {
         fetchDashboardData();
     }, [monthlyProfile?.totalMonthlyIncome, monthlyProfile?.savingTarget, monthlyProfile?.incomeSource]);
 
-    if (loading) return <div>Loading dashboard...</div>;
 
     return (
         <DashboardLayout user={user}>
