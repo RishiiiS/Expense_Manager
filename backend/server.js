@@ -15,9 +15,22 @@ const reportRoutes = require("./routes/report.routes");
 const analyticsRoutes = require("./routes/analytics.routes");
 
 app.use(express.json());
+
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:5174',
+  process.env.ALLOWED_ORIGIN,
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.ALLOWED_ORIGIN || 'http://localhost:5173'
-})); // Allow Vite frontend
+  origin: (origin, callback) => {
+    // Allow requests with no origin (curl, Postman, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
+  credentials: true,
+}));
 
 // Handle JSON parsing errors gracefully
 app.use((err, req, res, next) => {
