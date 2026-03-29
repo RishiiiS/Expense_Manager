@@ -40,13 +40,6 @@ app.use((err, req, res, next) => {
   }
   next();
 });
-connectDB();
-sequelize.sync({ force: false })
-  .then(async () => {
-    console.log("Tables synced");
-    await categoryService.seedDefaultCategories();
-  })
-  .catch((err) => console.error("Sync error:", err));
 
 app.get("/", (req, res) => {
   res.send("MoneyTree API Running 🌳");
@@ -74,6 +67,20 @@ app.use((err, req, res, next) => {
 });
 const PORT = process.env.PORT || 5001;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB();
+    await sequelize.sync({ force: false });
+    console.log("Tables synced");
+    await categoryService.seedDefaultCategories();
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("Startup error:", err);
+    process.exit(1);
+  }
+};
+
+startServer();
