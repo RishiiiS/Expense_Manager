@@ -81,6 +81,7 @@ Backend: `http://localhost:5001`
 
 - Prefer setting `DATABASE_URL` in the Render service environment.
 - Ensure `ALLOWED_ORIGIN` matches your deployed frontend URL.
+- Render requires your web service to bind to `PORT` quickly. This API starts listening immediately and returns `503` until the database is ready.
 
 ### Supabase
 
@@ -96,4 +97,3 @@ Checklist:
 - Confirm the database is running and accepts connections from your host (Render/VPS/local).
 - Verify `DB_HOST` and `DB_PORT` are correct for the connection type (direct vs pooler).
 - If deploying to Render, verify `DATABASE_URL` is set and points to a reachable database.
-

@@ -46,8 +46,7 @@ const connectDB = async (retries = 5, delay = 3000) => {
     } catch (error) {
       console.error(`DB connection attempt ${i}/${retries} failed:`, error.message);
       if (i === retries) {
-        console.error("Could not connect to DB after multiple retries. Exiting.");
-        process.exit(1);
+        throw error;
       }
       await new Promise((res) => setTimeout(res, delay));
     }

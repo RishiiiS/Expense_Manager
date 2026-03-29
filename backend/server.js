@@ -16,6 +16,8 @@ const analyticsRoutes = require("./routes/analytics.routes");
 
 app.use(express.json());
 
+let isDbReady = false;
+
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
@@ -41,8 +43,20 @@ app.use((err, req, res, next) => {
   next();
 });
 
+// Health/readiness endpoints (useful for Render and uptime checks)
+app.get("/healthz", (req, res) => {
+  res.status(isDbReady ? 200 : 503).json({ ok: true, dbReady: isDbReady });
+});
+
 app.get("/", (req, res) => {
-  res.send("MoneyTree API Running 🌳");
+  res.status(isDbReady ? 200 : 503).send("MoneyTree API Running");
+});
+
+// If DB is not ready, keep the service up but block API routes
+app.use((req, res, next) => {
+  if (isDbReady) return next();
+  if (req.path === "/" || req.path === "/healthz") return next();
+  return res.status(503).json({ error: "Service is starting up. Please retry shortly." });
 });
 
 app.use("/api/v1/auth", authRoutes);
@@ -69,17 +83,20 @@ const PORT = process.env.PORT || 5001;
 
 const startServer = async () => {
   try {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+
     await connectDB();
     await sequelize.sync({ force: false });
     console.log("Tables synced");
     await categoryService.seedDefaultCategories();
-
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    isDbReady = true;
   } catch (err) {
     console.error("Startup error:", err);
-    process.exit(1);
+    // Keep the process alive (so the port stays bound) but report 503 until DB is healthy.
+    // This avoids Render failing the deploy solely due to DB cold-start/network delays.
+    isDbReady = false;
   }
 };
 
