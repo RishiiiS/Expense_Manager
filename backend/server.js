@@ -18,17 +18,21 @@ app.use(express.json());
 
 let isDbReady = false;
 
+// Support comma-separated origins: e.g. "https://foo.vercel.app,https://bar.vercel.app"
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
-  process.env.ALLOWED_ORIGIN,
+  ...(process.env.ALLOWED_ORIGIN ? process.env.ALLOWED_ORIGIN.split(',').map(o => o.trim()) : []),
 ].filter(Boolean);
+
+console.log('CORS allowed origins:', allowedOrigins);
 
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (curl, Postman, server-to-server)
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) return callback(null, true);
+    console.warn(`CORS blocked origin: ${origin}`);
     callback(new Error(`CORS: origin ${origin} not allowed`));
   },
   credentials: true,
